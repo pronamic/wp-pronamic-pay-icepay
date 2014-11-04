@@ -16,9 +16,9 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	/**
 	 * Constructs and intializes an Icepay gateway
 	 *
-	 * @param Pronamic_Gateways_Icepay_Config $config
+	 * @param Pronamic_WP_Pay_Gateways_Icepay_Config $config
 	 */
-	public function __construct( Pronamic_Gateways_Icepay_Config $config ) {
+	public function __construct( Pronamic_WP_Pay_Gateways_Icepay_Config $config ) {
 		parent::__construct( $config );
 
 		// Default properties for this gateway
