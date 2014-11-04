@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress Pay ICEPAY rules">
-	<rule ref="WordPress">	
-		<exclude name="WordPress.VIP.RestrictedFunctions.wp_remote_get" />
+	<rule ref="WordPress">
+		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
+
+		<exclude name="WordPress.VIP.RestrictedFunctions.wp_remote_get" />		
 	</rule>
 </ruleset>
