@@ -12,4 +12,5 @@
 
 ## Documentation
 
-*	[ICEPAY](http://www.icepay.nl/)
+*	[ICEPAY](http://www.icepay.com/)
+*	[ICEPAY API 2](http://www.icepay.com/api-2-en)
