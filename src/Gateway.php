@@ -31,7 +31,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 *
 	 * @see Pronamic_WP_Pay_Gateway::start()
 	 */
-	public function start( Pronamic_Pay_PaymentDataInterface $data, Pronamic_Pay_Payment $payment ) {
+	public function start( Pronamic_Pay_PaymentDataInterface $data, Pronamic_Pay_Payment $payment, $payment_method = null ) {
 		try {
 			/*
 			 * Order ID
@@ -43,6 +43,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			 * Required   = Yes
 			 */
 
+			// Payment object
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
 				->setAmount( Pronamic_WP_Util::amount_to_cents( $data->get_amount() ) )
@@ -54,8 +55,10 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				->setIssuer( $data->get_issuer_id() )
 				->setOrderID( $payment->get_id() );
 
+			// Protocol
 			$protocol = is_ssl() ? 'https' : 'http';
 
+			// Basic mode
 			$basicmode = Icepay_Basicmode::getInstance();
 			$basicmode
 				->setMerchantID( $this->config->merchant_id )
@@ -63,6 +66,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				->setProtocol( $protocol )
 				->validatePayment( $payment_object );
 
+			// Payment
 			$payment->set_action_url( $basicmode->getURL() );
 		} catch ( Exception $exception ) {
 			$this->error = new WP_Error( 'icepay_error', $exception->getMessage(), $exception );
