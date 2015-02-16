@@ -13,4 +13,6 @@
 ## Documentation
 
 *	[ICEPAY](http://www.icepay.com/)
-*	[ICEPAY API 2](http://www.icepay.com/api-2-en)
+	*	[ICEPAY API 2](http://www.icepay.com/api-2-en)
+*	[GitHub Organization ICEPAY](https://github.com/icepay)
+	*	[GitHub Repository ICEPAY](https://github.com/icepay/icepay)
