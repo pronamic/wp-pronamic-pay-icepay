@@ -9,12 +9,8 @@
  * @version 1.0.0
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
-
-
-	//////////////////////////////////////////////////
-
 	/**
-	 * Constructs and intializes an Icepay gateway
+	 * Constructs and intializes an ICEPAY gateway
 	 *
 	 * @param Pronamic_WP_Pay_Gateways_Icepay_Config $config
 	 */
