@@ -26,10 +26,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		$this->set_has_feedback( true );
 		$this->set_amount_minimum( 1.20 );
 		$this->set_slug( 'icepay' );
-
-		if ( ! class_exists( 'Icepay_Paymentmethod_Ideal' ) ) {
-			require_once Pronamic_WP_Pay_Plugin::$dirname . '/includes/icepay/api/icepay_api_basic.php';
-		}
 	}
 
 	//////////////////////////////////////////////////
