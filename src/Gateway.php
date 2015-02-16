@@ -6,15 +6,11 @@
  * Copyright: Copyright (c) 2005 - 2015
  * Company: Pronamic
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 1.2.0
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
-
-
-	//////////////////////////////////////////////////
-
 	/**
-	 * Constructs and intializes an Icepay gateway
+	 * Constructs and intializes an ICEPAY gateway
 	 *
 	 * @param Pronamic_WP_Pay_Gateways_Icepay_Config $config
 	 */
@@ -26,10 +22,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		$this->set_has_feedback( true );
 		$this->set_amount_minimum( 1.20 );
 		$this->set_slug( 'icepay' );
-
-		if ( ! class_exists( 'Icepay_Paymentmethod_Ideal' ) ) {
-			require_once Pronamic_WP_Pay_Plugin::$dirname . '/includes/icepay/api/icepay_api_basic.php';
-		}
 	}
 
 	//////////////////////////////////////////////////
@@ -39,7 +31,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 *
 	 * @see Pronamic_WP_Pay_Gateway::start()
 	 */
-	public function start( Pronamic_Pay_PaymentDataInterface $data, Pronamic_Pay_Payment $payment ) {
+	public function start( Pronamic_Pay_PaymentDataInterface $data, Pronamic_Pay_Payment $payment, $payment_method = null ) {
 		try {
 			/*
 			 * Order ID
@@ -51,6 +43,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			 * Required   = Yes
 			 */
 
+			// Payment object
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
 				->setAmount( Pronamic_WP_Util::amount_to_cents( $data->get_amount() ) )
@@ -62,8 +55,42 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				->setIssuer( $data->get_issuer_id() )
 				->setOrderID( $payment->get_id() );
 
+			// Payment method
+			// @since 1.2.0
+			$icepay_method = null;
+
+			switch ( $payment_method ) {
+				case Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
+					$icepay_method = new Icepay_Paymentmethod_Creditcard();
+
+					break;
+				case Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
+					$icepay_method = new Icepay_Paymentmethod_Ddebit();
+
+					break;
+				case Pronamic_WP_Pay_PaymentMethods::IDEAL :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
+					$icepay_method = new Icepay_Paymentmethod_Ideal();
+
+					break;
+				case Pronamic_WP_Pay_PaymentMethods::MISTER_CASH :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
+					$icepay_method = new Icepay_Paymentmethod_Mistercash();
+
+					break;				
+			}
+
+			if ( isset( $icepay_method ) ) {
+				// @see https://github.com/icepay/icepay/blob/2.4.0/api/icepay_api_base.php#L342-L353
+				$payment_object->setPaymentMethod( $icepay_method->getCode() );
+			}
+
+			// Protocol
 			$protocol = is_ssl() ? 'https' : 'http';
 
+			// Basic mode
 			$basicmode = Icepay_Basicmode::getInstance();
 			$basicmode
 				->setMerchantID( $this->config->merchant_id )
@@ -71,6 +98,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				->setProtocol( $protocol )
 				->validatePayment( $payment_object );
 
+			// Payment
 			$payment->set_action_url( $basicmode->getURL() );
 		} catch ( Exception $exception ) {
 			$this->error = new WP_Error( 'icepay_error', $exception->getMessage(), $exception );
@@ -97,15 +125,15 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			if ( $result->validate() ) {
 				// What was the status response
 				switch ( $result->getStatus() ) {
-					case Icepay_StatusCode::SUCCESS:
+					case Icepay_StatusCode::SUCCESS :
 						$payment->set_status( Pronamic_WP_Pay_Statuses::SUCCESS );
 
 						break;
-					case Icepay_StatusCode::OPEN:
+					case Icepay_StatusCode::OPEN :
 						$payment->set_status( Pronamic_WP_Pay_Statuses::OPEN );
 
 						break;
-					case Icepay_StatusCode::ERROR:
+					case Icepay_StatusCode::ERROR :
 						$payment->set_status( Pronamic_WP_Pay_Statuses::FAILURE );
 
 						break;
