@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "83ec1a820f3fe29d96f3a823663ef498",
+    "hash": "6ea5500f13d67df918544811b445d23a",
     "packages": [
         {
             "name": "icepay/icepay",
-            "version": "dev-develop",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icepay/icepay.git",
-                "reference": "d20153234896ebca244c795b48c2e107370fe373"
+                "reference": "53de4fb4db4e4916a4f7075ba92b04fe11ee1d6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icepay/icepay/zipball/d20153234896ebca244c795b48c2e107370fe373",
-                "reference": "d20153234896ebca244c795b48c2e107370fe373",
+                "url": "https://api.github.com/repos/icepay/icepay/zipball/53de4fb4db4e4916a4f7075ba92b04fe11ee1d6a",
+                "reference": "53de4fb4db4e4916a4f7075ba92b04fe11ee1d6a",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,7 @@
                 "icepay",
                 "payment"
             ],
-            "time": "2015-02-16 10:52:40"
+            "time": "2015-02-16 11:12:49"
         },
         {
             "name": "wp-pay/core",
@@ -607,7 +607,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "icepay/icepay": 20,
         "satooshi/php-coveralls": 20
     },
     "prefer-stable": false,
