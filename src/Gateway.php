@@ -55,6 +55,37 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				->setIssuer( $data->get_issuer_id() )
 				->setOrderID( $payment->get_id() );
 
+			// Payment method
+			$icepay_method = null;
+
+			switch ( $payment_method ) {
+				case Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
+					$icepay_method = new Icepay_Paymentmethod_Creditcard();
+
+					break;
+				case Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
+					$icepay_method = new Icepay_Paymentmethod_Ddebit();
+
+					break;
+				case Pronamic_WP_Pay_PaymentMethods::IDEAL :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
+					$icepay_method = new Icepay_Paymentmethod_Ideal();
+
+					break;
+				case Pronamic_WP_Pay_PaymentMethods::MISTER_CASH :
+					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
+					$icepay_method = new Icepay_Paymentmethod_Mistercash();
+
+					break;				
+			}
+
+			if ( isset( $icepay_method ) ) {
+				// @see https://github.com/icepay/icepay/blob/2.4.0/api/icepay_api_base.php#L342-L353
+				$payment_object->setPaymentMethod( $icepay_method->getCode() );
+			}
+
 			// Protocol
 			$protocol = is_ssl() ? 'https' : 'http';
 
