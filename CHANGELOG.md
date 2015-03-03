@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+*	Changed WordPress pay core library requirment from ~1.0.0 to >=1.0.0.
+
 ## 1.2.0
 *	Added support for multiple payment methods.
 
