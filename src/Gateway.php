@@ -27,6 +27,57 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	//////////////////////////////////////////////////
 
 	/**
+	 * Get issuers
+	 *
+	 * @see Pronamic_WP_Pay_Gateway::get_issuers()
+	 */
+	public function get_issuers() {
+		$groups = array();
+
+		$methods = Icepay_Api_Webservice::getInstance()
+					->paymentmethodService()
+					->setMerchantID( $this->config->merchant_id )
+					->setSecretCode( $this->config->secret_code )
+					->retrieveAllPaymentmethods()
+					->asArray();
+
+		$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
+					->loadFromArray( $methods )
+					->selectPaymentMethodByCode( 'IDEAL' )
+					->getIssuers();
+
+		if ( $issuers ) {
+			$options = array();
+
+			foreach ( $issuers as $issuer )
+			{
+				$options[ $issuer['IssuerKeyword'] ] = $issuer['Description'];
+			}
+
+			$groups[] = array(
+				'options' => $options,
+			);
+		}
+
+		return $groups;
+	}
+
+	/////////////////////////////////////////////////
+
+	public function get_issuer_field() {
+		return array(
+			'id'       => 'pronamic_ideal_issuer_id',
+			'name'     => 'pronamic_ideal_issuer_id',
+			'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
+			'required' => true,
+			'type'     => 'select',
+			'choices'  => $this->get_transient_issuers()
+		);
+	}
+
+	/////////////////////////////////////////////////
+
+	/**
 	 * Start an transaction
 	 *
 	 * @see Pronamic_WP_Pay_Gateway::start()
