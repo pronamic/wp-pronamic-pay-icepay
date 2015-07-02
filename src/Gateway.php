@@ -49,8 +49,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		if ( $issuers ) {
 			$options = array();
 
-			foreach ( $issuers as $issuer )
-			{
+			foreach ( $issuers as $issuer ) {
 				$options[ $issuer['IssuerKeyword'] ] = $issuer['Description'];
 			}
 
@@ -71,7 +70,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
 			'required' => true,
 			'type'     => 'select',
-			'choices'  => $this->get_transient_issuers()
+			'choices'  => $this->get_transient_issuers(),
 		);
 	}
 
@@ -130,7 +129,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
 					$icepay_method = new Icepay_Paymentmethod_Mistercash();
 
-					break;				
+					break;
 			}
 
 			if ( isset( $icepay_method ) ) {

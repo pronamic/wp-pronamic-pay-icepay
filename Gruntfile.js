@@ -12,12 +12,14 @@ module.exports = function( grunt ) {
 		// PHP Code Sniffer
 		phpcs: {
 			application: {
-				dir: [ 'src', 'tests' ],
+				src: [
+					'src/**/*.php',
+					'tests/**/*.php'
+				],
 			},
 			options: {
 				standard: 'phpcs.ruleset.xml',
-				extensions: 'php',
-				ignore: 'node_modules'
+				showSniffCodes: true
 			}
 		},
 
@@ -28,7 +30,10 @@ module.exports = function( grunt ) {
 					'-lf': null
 				}
 			},
-			all: [ 'src/**/*.php', 'tests/**/*.php' ]
+			all: [
+				'src/**/*.php',
+				'tests/**/*.php'
+			]
 		},
 
 		// PHP Mess Detector
@@ -37,7 +42,6 @@ module.exports = function( grunt ) {
 				dir: 'src'
 			},
 			options: {
-				exclude: 'node_modules',
 				reportFormat: 'xml',
 				rulesets: 'phpmd.ruleset.xml'
 			}
