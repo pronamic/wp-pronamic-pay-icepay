@@ -35,16 +35,16 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		$groups = array();
 
 		$methods = Icepay_Api_Webservice::getInstance()
-					->paymentmethodService()
-					->setMerchantID( $this->config->merchant_id )
-					->setSecretCode( $this->config->secret_code )
-					->retrieveAllPaymentmethods()
-					->asArray();
+			->paymentmethodService()
+			->setMerchantID( $this->config->merchant_id )
+			->setSecretCode( $this->config->secret_code )
+			->retrieveAllPaymentmethods()
+			->asArray();
 
 		$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
-					->loadFromArray( $methods )
-					->selectPaymentMethodByCode( 'IDEAL' )
-					->getIssuers();
+			->loadFromArray( $methods )
+			->selectPaymentMethodByCode( 'IDEAL' )
+			->getIssuers();
 
 		if ( $issuers ) {
 			$options = array();

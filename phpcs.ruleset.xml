@@ -3,10 +3,7 @@
 <ruleset name="WordPress Pay ICEPAY rules">
 	<rule ref="WordPress">
 		<exclude name="Generic.Files.LowercasedFilename.NotFound" />
-		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
 
 		<exclude name="Squiz.Commenting" />
-
-		<exclude name="WordPress.VIP.RestrictedFunctions.wp_remote_get" />		
 	</rule>
 </ruleset>
