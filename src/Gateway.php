@@ -83,6 +83,11 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 */
 	public function start( Pronamic_Pay_PaymentDataInterface $data, Pronamic_Pay_Payment $payment, $payment_method = null ) {
 		try {
+			$locale = $data->get_language_and_country();
+
+			$language = substr( $locale, 0, 2 );
+			$country  = substr( $locale, 2, 2 );
+
 			/*
 			 * Order ID
 			 * Your unique order number.
@@ -97,8 +102,8 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
 				->setAmount( Pronamic_WP_Pay_Util::amount_to_cents( $data->get_amount() ) )
-				->setCountry( 'NL' )
-				->setLanguage( 'NL' )
+				->setCountry( $country )
+				->setLanguage( $language )
 				->setReference( $data->get_order_id() )
 				->setDescription( $data->get_description() )
 				->setCurrency( $data->get_currency() )
