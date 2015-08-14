@@ -86,7 +86,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			$locale = $data->get_language_and_country();
 
 			$language = substr( $locale, 0, 2 );
-			$country  = substr( $locale, 2, 2 );
+			$country  = substr( $locale, 3, 2 );
 
 			/*
 			 * Order ID
