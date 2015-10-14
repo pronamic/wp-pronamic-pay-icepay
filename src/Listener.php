@@ -10,7 +10,7 @@
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Listener implements Pronamic_Pay_Gateways_ListenerInterface {
 	public static function listen() {
-		if ( 
+		if (
 			filter_has_var( INPUT_GET, 'Status' )
 				&&
 			filter_has_var( INPUT_GET, 'StatusCode' )

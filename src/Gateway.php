@@ -27,12 +27,67 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	//////////////////////////////////////////////////
 
 	/**
+	 * Get issuers
+	 *
+	 * @see Pronamic_WP_Pay_Gateway::get_issuers()
+	 */
+	public function get_issuers() {
+		$groups = array();
+
+		$methods = Icepay_Api_Webservice::getInstance()
+			->paymentmethodService()
+			->setMerchantID( $this->config->merchant_id )
+			->setSecretCode( $this->config->secret_code )
+			->retrieveAllPaymentmethods()
+			->asArray();
+
+		$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
+			->loadFromArray( $methods )
+			->selectPaymentMethodByCode( 'IDEAL' )
+			->getIssuers();
+
+		if ( $issuers ) {
+			$options = array();
+
+			foreach ( $issuers as $issuer ) {
+				$options[ $issuer['IssuerKeyword'] ] = $issuer['Description'];
+			}
+
+			$groups[] = array(
+				'options' => $options,
+			);
+		}
+
+		return $groups;
+	}
+
+	/////////////////////////////////////////////////
+
+	public function get_issuer_field() {
+		return array(
+			'id'       => 'pronamic_ideal_issuer_id',
+			'name'     => 'pronamic_ideal_issuer_id',
+			'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
+			'required' => true,
+			'type'     => 'select',
+			'choices'  => $this->get_transient_issuers(),
+		);
+	}
+
+	/////////////////////////////////////////////////
+
+	/**
 	 * Start an transaction
 	 *
 	 * @see Pronamic_WP_Pay_Gateway::start()
 	 */
 	public function start( Pronamic_Pay_PaymentDataInterface $data, Pronamic_Pay_Payment $payment, $payment_method = null ) {
 		try {
+			$locale = $data->get_language_and_country();
+
+			$language = substr( $locale, 0, 2 );
+			$country  = substr( $locale, 3, 2 );
+
 			/*
 			 * Order ID
 			 * Your unique order number.
@@ -46,9 +101,9 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			// Payment object
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
-				->setAmount( Pronamic_WP_Util::amount_to_cents( $data->get_amount() ) )
-				->setCountry( 'NL' )
-				->setLanguage( 'NL' )
+				->setAmount( Pronamic_WP_Pay_Util::amount_to_cents( $data->get_amount() ) )
+				->setCountry( $country )
+				->setLanguage( $language )
 				->setReference( $data->get_order_id() )
 				->setDescription( $data->get_description() )
 				->setCurrency( $data->get_currency() )
@@ -79,7 +134,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
 					$icepay_method = new Icepay_Paymentmethod_Mistercash();
 
-					break;				
+					break;
 			}
 
 			if ( isset( $icepay_method ) ) {

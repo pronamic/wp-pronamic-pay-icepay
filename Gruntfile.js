@@ -1,4 +1,6 @@
 module.exports = function( grunt ) {
+	require( 'load-grunt-tasks' )( grunt );
+
 	// Project configuration.
 	grunt.initConfig( {
 		// Package
@@ -12,12 +14,14 @@ module.exports = function( grunt ) {
 		// PHP Code Sniffer
 		phpcs: {
 			application: {
-				dir: [ 'src', 'tests' ],
+				src: [
+					'src/**/*.php',
+					'tests/**/*.php'
+				],
 			},
 			options: {
 				standard: 'phpcs.ruleset.xml',
-				extensions: 'php',
-				ignore: 'node_modules'
+				showSniffCodes: true
 			}
 		},
 
@@ -28,7 +32,10 @@ module.exports = function( grunt ) {
 					'-lf': null
 				}
 			},
-			all: [ 'src/**/*.php', 'tests/**/*.php' ]
+			all: [
+				'src/**/*.php',
+				'tests/**/*.php'
+			]
 		},
 
 		// PHP Mess Detector
@@ -37,17 +44,11 @@ module.exports = function( grunt ) {
 				dir: 'src'
 			},
 			options: {
-				exclude: 'node_modules',
 				reportFormat: 'xml',
 				rulesets: 'phpmd.ruleset.xml'
 			}
 		},
 	} );
-
-	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
-	grunt.loadNpmTasks( 'grunt-phpcs' );
-	grunt.loadNpmTasks( 'grunt-phplint' );
-	grunt.loadNpmTasks( 'grunt-phpmd' );
 
 	// Default task(s).
 	grunt.registerTask( 'default', [ 'jshint', 'phplint', 'phpmd', 'phpcs' ] );
