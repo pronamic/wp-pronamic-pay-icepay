@@ -1,6 +1,6 @@
 {
   "name": "icepay",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "ICEPAY driver for the WordPress payment processing library.",
   "repository": {
     "type": "git",
@@ -34,9 +34,10 @@
   "homepage": "http://www.wp-pay.org/gateways/icepay/",
   "devDependencies": {
     "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "0.0.5",
     "grunt-phpmd": "^0.1.1",
-    "grunt-phpcs": "^0.4.0",
-    "grunt-contrib-jshint": "^0.11.2"
+    "load-grunt-tasks": "^3.3.0"
   }
 }
