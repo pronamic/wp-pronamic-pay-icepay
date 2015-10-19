@@ -63,15 +63,26 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 
 	/////////////////////////////////////////////////
 
+	/**
+	 * Get issuer field.
+	 *
+	 * @since 1.0.0
+	 * @version 1.2.3
+	 * @return mixed
+	 */
 	public function get_issuer_field() {
-		return array(
-			'id'       => 'pronamic_ideal_issuer_id',
-			'name'     => 'pronamic_ideal_issuer_id',
-			'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
-			'required' => true,
-			'type'     => 'select',
-			'choices'  => $this->get_transient_issuers(),
-		);
+		$payment_method = $this->get_payment_method();
+
+		if ( Pronamic_WP_Pay_PaymentMethods::iDEAL === $payment_method ) {
+			return array(
+				'id'       => 'pronamic_ideal_issuer_id',
+				'name'     => 'pronamic_ideal_issuer_id',
+				'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
+				'required' => true,
+				'type'     => 'select',
+				'choices'  => $this->get_transient_issuers(),
+			);
+		}
 	}
 
 	/////////////////////////////////////////////////
