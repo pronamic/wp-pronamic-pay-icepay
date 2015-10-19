@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [1.2.4] - 2015-10-19
+- Fixed fatal error with wrong constant usage.
+
 ## [1.2.3] - 2015-10-19
 - Only return the iDEAL issuers field if the payment method is iDEAL.
 
