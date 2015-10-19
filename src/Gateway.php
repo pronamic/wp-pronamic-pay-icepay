@@ -6,7 +6,8 @@
  * Copyright: Copyright (c) 2005 - 2015
  * Company: Pronamic
  * @author Remco Tolsma
- * @version 1.2.0
+ * @since 1.0.0
+ * @version 1.2.4
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	/**
@@ -67,13 +68,13 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 * Get issuer field.
 	 *
 	 * @since 1.0.0
-	 * @version 1.2.3
+	 * @version 1.2.4
 	 * @return mixed
 	 */
 	public function get_issuer_field() {
 		$payment_method = $this->get_payment_method();
 
-		if ( Pronamic_WP_Pay_PaymentMethods::iDEAL === $payment_method ) {
+		if ( Pronamic_WP_Pay_PaymentMethods::IDEAL === $payment_method ) {
 			return array(
 				'id'       => 'pronamic_ideal_issuer_id',
 				'name'     => 'pronamic_ideal_issuer_id',
