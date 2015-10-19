@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "722be18b449dbf96f59a865e26f349c4",
-    "content-hash": "04133b4a044fb26a7d3839c719384b02",
+    "hash": "4fe6a70a68cf4fb5b86da4091fdff8c6",
+    "content-hash": "4db0c6314ad2011cba504078cdd16c94",
     "packages": [
         {
             "name": "icepay/icepay",
@@ -42,16 +42,16 @@
         },
         {
             "name": "wp-pay/core",
-            "version": "1.2.1",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-pay/core.git",
-                "reference": "d40c40f742e5bddea6e10751b515c865fb56915f"
+                "reference": "a389f2c3910a3e71632a0e8fd53f0d5f0fae8bf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-pay/core/zipball/d40c40f742e5bddea6e10751b515c865fb56915f",
-                "reference": "d40c40f742e5bddea6e10751b515c865fb56915f",
+                "url": "https://api.github.com/repos/wp-pay/core/zipball/a389f2c3910a3e71632a0e8fd53f0d5f0fae8bf5",
+                "reference": "a389f2c3910a3e71632a0e8fd53f0d5f0fae8bf5",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
                 "wordpress",
                 "wp"
             ],
-            "time": "2015-04-29 14:48:49"
+            "time": "2015-10-19 10:18:32"
         }
     ],
     "packages-dev": [
