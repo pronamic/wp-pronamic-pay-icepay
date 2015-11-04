@@ -27,8 +27,9 @@ class Pronamic_WP_Pay_Gateways_Icepay_GatewaySettings extends Pronamic_WP_Pay_Ga
 	}
 
 	public function fields( array $fields ) {
-		// Partner ID
+		// Merchant ID
 		$fields[] = array(
+			'filter'      => FILTER_SANITIZE_STRING,
 			'section'     => 'icepay',
 			'meta_key'    => '_pronamic_gateway_icepay_merchant_id',
 			'title'       => _x( 'Merchant ID', 'icepay', 'pronamic_ideal' ),
@@ -40,7 +41,9 @@ class Pronamic_WP_Pay_Gateways_Icepay_GatewaySettings extends Pronamic_WP_Pay_Ga
 			),
 		);
 
+		// Secret Code
 		$fields[] = array(
+			'filter'      => FILTER_SANITIZE_STRING,
 			'section'     => 'icepay',
 			'meta_key'    => '_pronamic_gateway_icepay_secret_code',
 			'title'       => _x( 'Secret Code', 'icepay', 'pronamic_ideal' ),
@@ -53,6 +56,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_GatewaySettings extends Pronamic_WP_Pay_Ga
 			),
 		);
 
+		// Thank you page URL
 		$fields[] = array(
 			'section'     => 'icepay',
 			'title'       => __( 'Thank you page URL', 'pronamic_ideal' ),
@@ -62,6 +66,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_GatewaySettings extends Pronamic_WP_Pay_Ga
 			'readonly'    => true,
 		);
 
+		// Error page URL
 		$fields[] = array(
 			'section'     => 'icepay',
 			'title'       => __( 'Error page URL', 'pronamic_ideal' ),
@@ -71,6 +76,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_GatewaySettings extends Pronamic_WP_Pay_Ga
 			'readonly'    => true,
 		);
 
+		// Postback URL
 		$fields[] = array(
 			'section'     => 'icepay',
 			'title'       => __( 'Postback URL', 'pronamic_ideal' ),
