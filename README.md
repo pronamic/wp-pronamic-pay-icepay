@@ -10,6 +10,11 @@
 [![License](https://poser.pugx.org/wp-pay-gateways/icepay/license.svg)](https://packagist.org/packages/wp-pay-gateways/icepay)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
+## Links
+
+*	https://icepay.com/
+*	https://portal.icepay.com/
+
 ## Documentation
 
 *	[ICEPAY](http://www.icepay.com/)
