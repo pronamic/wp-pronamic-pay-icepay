@@ -5,7 +5,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration {
 		$this->id            = 'icepay-ideal';
 		$this->name          = 'ICEPAY';
 		$this->url           = 'https://icepay.com/';
-		$this->dashboard_url = 'https://portal.icepay.com/',
+		$this->dashboard_url = 'https://portal.icepay.com/';
 	}
 
 	public function get_config_factory_class() {
