@@ -1,6 +1,6 @@
 <?php
 
-class Pronamic_WP_Pay_Gateways_Icepay_Integration {
+class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gateways_AbstractIntegration {
 	public function __construct() {
 		$this->id            = 'icepay-ideal';
 		$this->name          = 'ICEPAY';
@@ -14,6 +14,10 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration {
 
 	public function get_config_class() {
 		return 'Pronamic_WP_Pay_Gateways_Icepay_Config';
+	}
+
+	public function get_settings_class() {
+		return 'Pronamic_WP_Pay_Gateways_Icepay_Settings';
 	}
 
 	public function get_gateway_class() {
