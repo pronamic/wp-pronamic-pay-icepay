@@ -8,10 +8,10 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gatewa
 		$this->dashboard_url = 'https://portal.icepay.com/';
 
 		// Actions
-		$action = array( 'Pronamic_WP_Pay_Gateways_Icepay_Listener', 'listen' );
+		$function = array( 'Pronamic_WP_Pay_Gateways_Icepay_Listener', 'listen' );
 
-		if ( ! has_action( 'wp_loaded', $action ) ) {
-			add_action( 'wp_loaded', $action );	
+		if ( ! has_action( 'wp_loaded', $function ) ) {
+			add_action( 'wp_loaded', $function );
 		}
 	}
 
