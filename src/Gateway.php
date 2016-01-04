@@ -98,8 +98,8 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 					Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD  => Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD,
 					Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT => Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT,
 					Pronamic_WP_Pay_PaymentMethods::MISTER_CASH  => Pronamic_WP_Pay_PaymentMethods::MISTER_CASH,
-				)
-			)
+				),
+			),
 		);
 	}
 
