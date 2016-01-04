@@ -20,6 +20,7 @@ module.exports = function( grunt ) {
 				],
 			},
 			options: {
+				bin: 'vendor/bin/phpcs',
 				standard: 'phpcs.ruleset.xml',
 				showSniffCodes: true
 			}
@@ -48,8 +49,13 @@ module.exports = function( grunt ) {
 				rulesets: 'phpmd.ruleset.xml'
 			}
 		},
+		
+		// PHPUnit
+		phpunit: {
+			application: {},
+		}
 	} );
 
 	// Default task(s).
-	grunt.registerTask( 'default', [ 'jshint', 'phplint', 'phpmd', 'phpcs' ] );
+	grunt.registerTask( 'default', [ 'jshint', 'phplint', 'phpmd', 'phpcs', 'phpunit' ] );
 };
