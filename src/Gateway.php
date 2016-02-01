@@ -3,8 +3,9 @@
 /**
  * Title: ICEPAY gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2015
+ * Copyright: Copyright (c) 2005 - 2016
  * Company: Pronamic
+ *
  * @author Remco Tolsma
  * @since 1.0.0
  * @version 1.2.4
