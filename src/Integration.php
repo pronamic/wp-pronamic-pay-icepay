@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Title: ICEPAY integration
+ * Description:
+ * Copyright: Copyright (c) 2005 - 2016
+ * Company: Pronamic
+ *
+ * @author Reüel van der Steege
+ * @version 1.2.6
+ * @since 1.0.0
+ */
 class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gateways_AbstractIntegration {
 	public function __construct() {
 		$this->id            = 'icepay-ideal';
@@ -29,5 +39,20 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gatewa
 
 	public function get_gateway_class() {
 		return 'Pronamic_WP_Pay_Gateways_Icepay_Gateway';
+	}
+
+	/**
+	 * Get required settings for this integration.
+	 *
+	 * @see https://github.com/wp-premium/gravityforms/blob/1.9.16/includes/fields/class-gf-field-multiselect.php#L21-L42
+	 * @since 1.0.2
+	 * @return array
+	 */
+	public function get_settings() {
+		$settings = parent::get_settings();
+
+		$settings[] = 'icepay';
+
+		return $settings;
 	}
 }
