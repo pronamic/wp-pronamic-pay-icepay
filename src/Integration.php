@@ -16,6 +16,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gatewa
 		$this->name          = 'ICEPAY';
 		$this->url           = 'https://icepay.com/';
 		$this->dashboard_url = 'https://portal.icepay.com/';
+		$this->provider      = 'icepay';
 
 		// Actions
 		$function = array( 'Pronamic_WP_Pay_Gateways_Icepay_Listener', 'listen' );
