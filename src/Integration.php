@@ -38,10 +38,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gatewa
 		return 'Pronamic_WP_Pay_Gateways_Icepay_Settings';
 	}
 
-	public function get_gateway_class() {
-		return 'Pronamic_WP_Pay_Gateways_Icepay_Gateway';
-	}
-
 	/**
 	 * Get required settings for this integration.
 	 *
