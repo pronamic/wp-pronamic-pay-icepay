@@ -7,8 +7,8 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
+ * @version 1.2.6
  * @since 1.0.0
- * @version 1.2.4
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	/**
