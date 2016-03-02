@@ -7,8 +7,8 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
+ * @version 1.2.6
  * @since 1.0.0
- * @version 1.2.4
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	/**
@@ -29,12 +29,22 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	//////////////////////////////////////////////////
 
 	/**
+	 * Filter iDEAL
+	 */
+	private function filter_ideal( $method ) {
+		return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
+	}
+
+	//////////////////////////////////////////////////
+
+	/**
 	 * Get issuers
 	 *
 	 * @see Pronamic_WP_Pay_Gateway::get_issuers()
 	 */
 	public function get_issuers() {
-		$groups = array();
+		$groups  = array();
+		$issuers = array();
 
 		$methods = Icepay_Api_Webservice::getInstance()
 			->paymentmethodService()
@@ -43,10 +53,14 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			->retrieveAllPaymentmethods()
 			->asArray();
 
-		$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
-			->loadFromArray( $methods )
-			->selectPaymentMethodByCode( 'IDEAL' )
-			->getIssuers();
+		$ideal_methods = array_filter( $methods, array( $this, 'filter_ideal' ) );
+
+		if ( ! empty( $ideal_methods ) ) {
+			$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
+				->loadFromArray( $methods )
+				->selectPaymentMethodByCode( 'IDEAL' )
+				->getIssuers();
+		}
 
 		if ( $issuers ) {
 			$options = array();
