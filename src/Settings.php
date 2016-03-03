@@ -21,6 +21,14 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 		$sections['icepay'] = array(
 			'title'   => __( 'ICEPAY', 'pronamic_ideal' ),
 			'methods' => array( 'icepay' ),
+			'description' => __( 'Account details are provided by the payment provider after registration. These settings need to match with the payment provider dashboard.', 'pronamic_ideal' ),
+		);
+
+		// Transaction feedback
+		$sections['icepay_feedback'] = array(
+			'title'   => __( 'Transaction feedback', 'pronamic_ideal' ),
+			'methods' => array( 'icepay' ),
+			'description' => __( 'Set the below URLs in the payment provider dashboard to receive automatic transaction status updates.', 'pronamic_ideal' ),
 		);
 
 		// Return
@@ -35,11 +43,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 			'meta_key'    => '_pronamic_gateway_icepay_merchant_id',
 			'title'       => _x( 'Merchant ID', 'icepay', 'pronamic_ideal' ),
 			'type'        => 'text',
-			'description' => sprintf(
-				__( 'You can find your Merchant ID on your <a href="%s" target="_blank">ICEPAY account page</a> under <a href="%s" target="_blank">My websites</a>.', 'pronamic_ideal' ),
-				__( 'https://portal.icepay.com/EN/Login', 'pronamic_ideal' ),
-				__( 'https://portal.icepay.com/Merchant/EN/Websites', 'pronamic_ideal' )
-			),
+			'tooltip'     => __( 'Merchant ID as mentioned in the ICEPAY dashboard at the "My websites" page.', 'pronamic_ideal' ),
 		);
 
 		// Secret Code
@@ -50,16 +54,23 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 			'title'       => _x( 'Secret Code', 'icepay', 'pronamic_ideal' ),
 			'type'        => 'text',
 			'classes'     => array( 'regular-text', 'code' ),
-			'description' => sprintf(
-				__( 'You can find your Secret Code on your <a href="%s" target="_blank">ICEPAY account page</a> under <a href="%s" target="_blank">My websites</a>.', 'pronamic_ideal' ),
-				__( 'https://portal.icepay.com/EN/Login', 'pronamic_ideal' ),
-				__( 'https://portal.icepay.com/Merchant/EN/Websites', 'pronamic_ideal' )
+			'tooltip'     => __( 'Secret Code as mentioned in the ICEPAY dashboard at the "My websites" page.', 'pronamic_ideal' ),
+		);
+
+		// Transaction feedback
+		$fields[] = array(
+			'section'       => 'icepay',
+			'title'         => __( 'Transaction feedback', 'pronamic_ideal' ),
+			'type'          => 'description',
+			'html'          => sprintf(
+				'<span class="dashicons dashicons-warning pronamic-pay-maybe"></span> %s',
+				__( 'Receiving payment status updates needs additional configuration, if not yet completed.', 'pronamic_ideal' )
 			),
 		);
 
 		// Thank you page URL
 		$fields[] = array(
-			'section'     => 'icepay',
+			'section'     => 'icepay_feedback',
 			'title'       => __( 'Thank you page URL', 'pronamic_ideal' ),
 			'type'        => 'text',
 			'classes'     => array( 'regular-text', 'code' ),
@@ -69,7 +80,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 
 		// Error page URL
 		$fields[] = array(
-			'section'     => 'icepay',
+			'section'     => 'icepay_feedback',
 			'title'       => __( 'Error page URL', 'pronamic_ideal' ),
 			'type'        => 'text',
 			'classes'     => array( 'regular-text', 'code' ),
@@ -79,7 +90,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 
 		// Postback URL
 		$fields[] = array(
-			'section'     => 'icepay',
+			'section'     => 'icepay_feedback',
 			'title'       => __( 'Postback URL', 'pronamic_ideal' ),
 			'type'        => 'text',
 			'classes'     => array( 'regular-text', 'code' ),
