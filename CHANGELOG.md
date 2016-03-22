@@ -7,6 +7,10 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [1.2.7] - 2016-03-22
+- Added product URL.
+- Updated gateway settings.
+
 ## [1.2.6] - 2016-03-02
 - Fixed fatal error in case of ICEPAY merchants that not have the iDEAL payment method activated.
 - Added get settings function.
@@ -36,7 +40,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-01-19
 - First release.
 
-[unreleased]: https://github.com/wp-pay-gateways/icepay/compare/1.2.6...HEAD
+[unreleased]: https://github.com/wp-pay-gateways/icepay/compare/1.2.7...HEAD
+[1.2.7]: https://github.com/wp-pay-gateways/icepay/compare/1.2.6...1.2.7
 [1.2.6]: https://github.com/wp-pay-gateways/icepay/compare/1.2.5...1.2.6
 [1.2.5]: https://github.com/wp-pay-gateways/icepay/compare/1.2.4...1.2.5
 [1.2.4]: https://github.com/wp-pay-gateways/icepay/compare/1.2.3...1.2.4
