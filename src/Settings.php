@@ -19,15 +19,15 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 	public function sections( array $sections ) {
 		// iDEAL
 		$sections['icepay'] = array(
-			'title'   => __( 'ICEPAY', 'pronamic_ideal' ),
-			'methods' => array( 'icepay' ),
+			'title'       => __( 'ICEPAY', 'pronamic_ideal' ),
+			'methods'     => array( 'icepay' ),
 			'description' => __( 'Account details are provided by the payment provider after registration. These settings need to match with the payment provider dashboard.', 'pronamic_ideal' ),
 		);
 
 		// Transaction feedback
 		$sections['icepay_feedback'] = array(
-			'title'   => __( 'Transaction feedback', 'pronamic_ideal' ),
-			'methods' => array( 'icepay' ),
+			'title'       => __( 'Transaction feedback', 'pronamic_ideal' ),
+			'methods'     => array( 'icepay' ),
 			'description' => __( 'Set the below URLs in the payment provider dashboard to receive automatic transaction status updates.', 'pronamic_ideal' ),
 		);
 
@@ -58,10 +58,10 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 
 		// Transaction feedback
 		$fields[] = array(
-			'section'       => 'icepay',
-			'title'         => __( 'Transaction feedback', 'pronamic_ideal' ),
-			'type'          => 'description',
-			'html'          => sprintf(
+			'section'     => 'icepay',
+			'title'       => __( 'Transaction feedback', 'pronamic_ideal' ),
+			'type'        => 'description',
+			'html'        => sprintf(
 				'<span class="dashicons dashicons-warning"></span> %s',
 				__( 'Receiving payment status updates needs additional configuration, if not yet completed.', 'pronamic_ideal' )
 			),
