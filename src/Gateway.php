@@ -170,8 +170,10 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				->setIssuer( $data->get_issuer_id() )
 				->setOrderID( $payment->get_id() );
 
-			// Payment method
-			// @since 1.2.0
+			/*
+			 * Payment method
+			 * @since 1.2.0
+			 */
 			$icepay_method = null;
 
 			switch ( $payment_method ) {

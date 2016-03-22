@@ -31,7 +31,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 			'description' => __( 'Set the below URLs in the payment provider dashboard to receive automatic transaction status updates.', 'pronamic_ideal' ),
 		);
 
-		// Return
 		return $sections;
 	}
 
@@ -98,7 +97,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySe
 			'readonly'    => true,
 		);
 
-		// Return
 		return $fields;
 	}
 }
