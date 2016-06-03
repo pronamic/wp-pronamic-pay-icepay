@@ -141,9 +141,9 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 *
 	 * @see Pronamic_WP_Pay_Gateway::start()
 	 */
-	public function start( Pronamic_Pay_PaymentDataInterface $data, Pronamic_Pay_Payment $payment, $payment_method = null ) {
+	public function start( Pronamic_Pay_Payment $payment ) {
 		try {
-			$locale = $data->get_language_and_country();
+			$locale = $payment->get_locale();
 
 			$language = strtoupper( substr( $locale, 0, 2 ) );
 			$country  = strtoupper( substr( $locale, 3, 2 ) );
@@ -161,13 +161,13 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			// Payment object
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
-				->setAmount( Pronamic_WP_Pay_Util::amount_to_cents( $data->get_amount() ) )
+				->setAmount( Pronamic_WP_Pay_Util::amount_to_cents( $payment->get_amount() ) )
 				->setCountry( $country )
 				->setLanguage( $language )
-				->setReference( $data->get_order_id() )
-				->setDescription( $data->get_description() )
-				->setCurrency( $data->get_currency() )
-				->setIssuer( $data->get_issuer_id() )
+				->setReference( $payment->get_order_id() )
+				->setDescription( $payment->get_description() )
+				->setCurrency( $payment->get_currency() )
+				->setIssuer( $payment->get_issuer() )
 				->setOrderID( $payment->get_id() );
 
 			/*
@@ -176,7 +176,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			 */
 			$icepay_method = null;
 
-			switch ( $payment_method ) {
+			switch ( $payment->get_method() ) {
 				case Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD :
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 					$icepay_method = new Icepay_Paymentmethod_Creditcard();
