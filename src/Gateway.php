@@ -7,7 +7,7 @@
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.2.8
+ * @version 1.2.9
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
@@ -112,7 +112,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 					Pronamic_WP_Pay_PaymentMethods::IDEAL        => Pronamic_WP_Pay_PaymentMethods::IDEAL,
 					Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD  => Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD,
 					Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT => Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT,
-					Pronamic_WP_Pay_PaymentMethods::MISTER_CASH  => Pronamic_WP_Pay_PaymentMethods::MISTER_CASH,
+					Pronamic_WP_Pay_PaymentMethods::BANCONTACT   => Pronamic_WP_Pay_PaymentMethods::MISTER_CASH,
 				),
 			),
 		);
@@ -127,10 +127,10 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 */
 	public function get_supported_payment_methods() {
 		return array(
-			Pronamic_WP_Pay_PaymentMethods::IDEAL        => Pronamic_WP_Pay_PaymentMethods::IDEAL,
-			Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD  => Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD,
-			Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT => Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT,
-			Pronamic_WP_Pay_PaymentMethods::MISTER_CASH  => Pronamic_WP_Pay_PaymentMethods::MISTER_CASH,
+			Pronamic_WP_Pay_PaymentMethods::IDEAL,
+			Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD,
+			Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT,
+			Pronamic_WP_Pay_PaymentMethods::BANCONTACT,
 		);
 	}
 
@@ -192,6 +192,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 					$icepay_method = new Icepay_Paymentmethod_Ideal();
 
 					break;
+				case Pronamic_WP_Pay_PaymentMethods::BANCONTACT :
 				case Pronamic_WP_Pay_PaymentMethods::MISTER_CASH :
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
 					$icepay_method = new Icepay_Paymentmethod_Mistercash();

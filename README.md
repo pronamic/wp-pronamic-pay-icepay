@@ -8,7 +8,7 @@
 [![Total Downloads](https://poser.pugx.org/wp-pay-gateways/icepay/downloads.svg)](https://packagist.org/packages/wp-pay-gateways/icepay)
 [![Latest Unstable Version](https://poser.pugx.org/wp-pay-gateways/icepay/v/unstable.svg)](https://packagist.org/packages/wp-pay-gateways/icepay)
 [![License](https://poser.pugx.org/wp-pay-gateways/icepay/license.svg)](https://packagist.org/packages/wp-pay-gateways/icepay)
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
 
 ## Links
 
