@@ -7,7 +7,7 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
-## [1.2.9] - 2016-10-19
+## [1.2.9] - 2016-10-20
 - Added support for new Bancontact constant.
 
 ## [1.2.8] - 2016-06-08
