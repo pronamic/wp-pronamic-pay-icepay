@@ -14,6 +14,8 @@ class Pronamic_WP_Pay_Gateways_Icepay_Config extends Pronamic_WP_Pay_GatewayConf
 
 	public $secret_code;
 
+	public $order_id;
+
 	public function get_gateway_class() {
 		return 'Pronamic_WP_Pay_Gateways_Icepay_Gateway';
 	}
