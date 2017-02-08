@@ -3,11 +3,11 @@
 /**
  * Title: ICEPAY gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2016
+ * Copyright: Copyright (c) 2005 - 2017
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.2.9
+ * @version 1.3.0
  * @since 1.0.0
  */
 class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
