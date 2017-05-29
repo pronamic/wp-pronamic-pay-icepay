@@ -214,6 +214,8 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				->setMerchantID( $this->config->merchant_id )
 				->setSecretCode( $this->config->secret_code )
 				->setProtocol( $protocol )
+				->setSuccessURL( $payment->get_return_url() )
+				->setErrorURL( $payment->get_return_url() )
 				->validatePayment( $payment_object );
 
 			// Payment
