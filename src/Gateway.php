@@ -77,6 +77,55 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		return $groups;
 	}
 
+	/**
+	 * Get issuers
+	 *
+	 * @see Pronamic_WP_Pay_Gateway::get_issuers()
+	 */
+	public function get_credit_card_issuers() {
+		$groups  = array();
+		$issuers = array();
+
+		$method = new Icepay_Paymentmethod_Creditcard();
+
+		if ( isset( $method->_issuer ) ) {
+			$issuers = $method->_issuer;
+		}
+
+		if ( $issuers ) {
+			$options = array();
+
+			foreach ( $issuers as $issuer ) {
+				switch( $issuer ) :
+					case 'AMEX' :
+						$name = _x( 'AMEX', 'Payment method name', 'pronamic_ideal' );
+
+						break;
+					case 'MASTER' :
+						$name = _x( 'MASTER', 'Payment method name', 'pronamic_ideal' );
+
+						break;
+					case 'VISA' :
+						$name = _x( 'VISA', 'Payment method name', 'pronamic_ideal' );
+
+						break;
+					default :
+						$name = $issuer;
+				endswitch;
+
+				$options[ $issuer ] = $name;
+			}
+
+			krsort( $options );
+
+			$groups[] = array(
+				'options' => $options,
+			);
+		}
+
+		return $groups;
+	}
+
 	/////////////////////////////////////////////////
 
 	/**
@@ -87,16 +136,30 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 * @return mixed
 	 */
 	public function get_issuer_field() {
-		if ( Pronamic_WP_Pay_PaymentMethods::IDEAL === $this->get_payment_method() ) {
-			return array(
-				'id'       => 'pronamic_ideal_issuer_id',
-				'name'     => 'pronamic_ideal_issuer_id',
-				'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
-				'required' => true,
-				'type'     => 'select',
-				'choices'  => $this->get_transient_issuers(),
-			);
-		}
+		switch ( $this->get_payment_method() ) {
+			case Pronamic_WP_Pay_PaymentMethods::IDEAL :
+				return array(
+					'id'       => 'pronamic_ideal_issuer_id',
+					'name'     => 'pronamic_ideal_issuer_id',
+					'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
+					'required' => true,
+					'type'     => 'select',
+					'choices'  => $this->get_transient_issuers(),
+				);
+
+				break;
+			case Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD :
+				return array(
+					'id'       => 'pronamic_credit_card_issuer_id',
+					'name'     => 'pronamic_credit_card_issuer_id',
+					'label'    => __( 'Choose your credit card issuer', 'pronamic_ideal' ),
+					'required' => true,
+					'type'     => 'select',
+					'choices'  => $this->get_transient_credit_card_issuers(),
+				);
+
+				break;
+        }
 	}
 
 	/////////////////////////////////////////////////
