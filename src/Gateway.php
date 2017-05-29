@@ -96,7 +96,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			$options = array();
 
 			foreach ( $issuers as $issuer ) {
-				switch( $issuer ) :
+				switch ( $issuer ) :
 					case 'AMEX' :
 						$name = _x( 'AMEX', 'Payment method name', 'pronamic_ideal' );
 
@@ -159,7 +159,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				);
 
 				break;
-        }
+		}
 	}
 
 	/////////////////////////////////////////////////
