@@ -116,8 +116,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				$options[ $issuer ] = $name;
 			}
 
-			krsort( $options );
-
 			$groups[] = array(
 				'options' => $options,
 			);
