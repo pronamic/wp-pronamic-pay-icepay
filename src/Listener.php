@@ -27,7 +27,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Listener implements Pronamic_Pay_Gateways_
 			filter_has_var( INPUT_GET, 'TransactionID' )
 				&&
 			filter_has_var( INPUT_GET, 'Checksum' )
-		 ) {
+		) {
 			$reference = filter_input( INPUT_GET, 'OrderID', FILTER_SANITIZE_STRING );
 
 			$payment = get_pronamic_payment( $reference );
