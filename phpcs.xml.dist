@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<ruleset name="WordPress Pay ICEPAY rules">
+	<config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/wimg/php-compatibility" />
+
+	<config name="minimum_supported_wp_version" value="4.7" />
+
+	<config name="testVersion" value="5.3-99.0" />
+
+	<rule ref="PHPCompatibility" />
+
+	<rule ref="WordPress">
+		<exclude name="Squiz.Commenting" />
+
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+	</rule>
+
+	<rule ref="WordPress.VIP.SlowDBQuery.slow_db_query_meta_key">
+		<exclude-pattern>src/Settings.php</exclude-pattern>
+	</rule>
+</ruleset>
