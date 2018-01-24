@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Plugin;
 
 /**
  * Title: ICEPAY listener
@@ -32,7 +33,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Listener implements Pronamic_Pay_Gateways_
 
 			$payment = get_pronamic_payment( $reference );
 
-			Pronamic_WP_Pay_Plugin::update_payment( $payment );
+			Plugin::update_payment( $payment );
 		}
 	}
 }
