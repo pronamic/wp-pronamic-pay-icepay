@@ -1,4 +1,7 @@
 <?php
+
+namespace Pronamic\WordPress\Pay\Gateways\Icepay;
+
 use Pronamic\WordPress\Pay\Plugin;
 
 /**
@@ -10,23 +13,23 @@ use Pronamic\WordPress\Pay\Plugin;
  * @author Remco Tolsma
  * @version 1.1.0
  */
-class Pronamic_WP_Pay_Gateways_Icepay_Listener implements Pronamic_Pay_Gateways_ListenerInterface {
+class Listener {
 	public static function listen() {
 		if (
 			filter_has_var( INPUT_GET, 'Status' )
-				&&
+			&&
 			filter_has_var( INPUT_GET, 'StatusCode' )
-				&&
+			&&
 			filter_has_var( INPUT_GET, 'Merchant' )
-				&&
+			&&
 			filter_has_var( INPUT_GET, 'OrderID' )
-				&&
+			&&
 			filter_has_var( INPUT_GET, 'PaymentID' )
-				&&
+			&&
 			filter_has_var( INPUT_GET, 'Reference' )
-				&&
+			&&
 			filter_has_var( INPUT_GET, 'TransactionID' )
-				&&
+			&&
 			filter_has_var( INPUT_GET, 'Checksum' )
 		) {
 			$reference = filter_input( INPUT_GET, 'OrderID', FILTER_SANITIZE_STRING );

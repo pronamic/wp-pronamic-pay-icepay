@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Gateways\Icepay\Config;
 
 /**
  * Title: ICEPAY - Config test
@@ -11,6 +12,6 @@
  */
 class Pronamic_WP_Pay_Gateways_Icepay_ConfigTest extends PHPUnit_Framework_TestCase {
 	public function test_config() {
-		$config = new Pronamic_WP_Pay_Gateways_Icepay_Config();
+		$config = new Config();
 	}
 }

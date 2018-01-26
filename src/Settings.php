@@ -1,5 +1,9 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Gateways\Icepay;
+
+use Pronamic\WordPress\Pay\Core\GatewaySettings;
+
 /**
  * Title: ICEPAY gateway settings
  * Description:
@@ -10,7 +14,7 @@
  * @version 1.3.0
  * @since 1.0.0
  */
-class Pronamic_WP_Pay_Gateways_Icepay_Settings extends Pronamic_WP_Pay_GatewaySettings {
+class Settings extends GatewaySettings {
 	public function __construct() {
 		add_filter( 'pronamic_pay_gateway_sections', array( $this, 'sections' ) );
 		add_filter( 'pronamic_pay_gateway_fields', array( $this, 'fields' ) );

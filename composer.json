@@ -24,7 +24,9 @@
 		"source": "https://github.com/wp-pay-gateways/icepay"
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"psr-4": {
+			"Pronamic\\WordPress\\Pay\\Gateways\\Icepay\\": "src/"
+		}
 	},
 	"config": {
 		"platform": {

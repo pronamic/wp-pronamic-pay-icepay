@@ -1,5 +1,9 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Gateways\Icepay;
+
+use Pronamic\WordPress\Pay\Gateways\Common\AbstractIntegration;
+
 /**
  * Title: ICEPAY integration
  * Description:
@@ -10,7 +14,7 @@
  * @version 1.2.7
  * @since 1.0.0
  */
-class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gateways_AbstractIntegration {
+class Integration extends AbstractIntegration {
 	public function __construct() {
 		$this->id            = 'icepay-ideal';
 		$this->name          = 'ICEPAY';
@@ -20,7 +24,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gatewa
 		$this->provider      = 'icepay';
 
 		// Actions
-		$function = array( 'Pronamic_WP_Pay_Gateways_Icepay_Listener', 'listen' );
+		$function = array( __NAMESPACE__ . '\Listener', 'listen' );
 
 		if ( ! has_action( 'wp_loaded', $function ) ) {
 			add_action( 'wp_loaded', $function );
@@ -28,11 +32,11 @@ class Pronamic_WP_Pay_Gateways_Icepay_Integration extends Pronamic_WP_Pay_Gatewa
 	}
 
 	public function get_config_factory_class() {
-		return 'Pronamic_WP_Pay_Gateways_Icepay_ConfigFactory';
+		return __NAMESPACE__ . '\ConfigFactory';
 	}
 
 	public function get_settings_class() {
-		return 'Pronamic_WP_Pay_Gateways_Icepay_Settings';
+		return __NAMESPACE__ . '\Settings';
 	}
 
 	/**

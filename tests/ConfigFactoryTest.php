@@ -1,4 +1,5 @@
 <?php
+use Pronamic\WordPress\Pay\Gateways\Icepay\ConfigFactory;
 
 /**
  * Title: ICEPAY - Config factory test
@@ -11,10 +12,10 @@
  */
 class Pronamic_WP_Pay_Gateways_Icepay_ConfigFactoryTest extends PHPUnit_Framework_TestCase {
 	public function test_config() {
-		$factory = new Pronamic_WP_Pay_Gateways_Icepay_ConfigFactory();
+		$factory = new ConfigFactory();
 
 		$config = $factory->get_config( 0 );
 
-		$this->assertInstanceOf( 'Pronamic_WP_Pay_Gateways_Icepay_Config', $config );
+		$this->assertInstanceOf( 'Pronamic\WordPress\Pay\Gateways\Icepay\Config', $config );
 	}
 }
