@@ -20,8 +20,4 @@ class Config extends GatewayConfig {
 	public $secret_code;
 
 	public $order_id;
-
-	public function get_gateway_class() {
-		return __NAMESPACE__ . '\Gateway';
-	}
 }
