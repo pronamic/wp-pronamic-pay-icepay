@@ -45,16 +45,12 @@ class Gateway extends Core_Gateway {
 		$this->set_slug( 'icepay' );
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Filter iDEAL
 	 */
 	private function filter_ideal( $method ) {
 		return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get issuers
@@ -305,8 +301,6 @@ class Gateway extends Core_Gateway {
 			$this->error = new WP_Error( 'icepay_error', $exception->getMessage(), $exception );
 		}
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Update the status of the specified payment
