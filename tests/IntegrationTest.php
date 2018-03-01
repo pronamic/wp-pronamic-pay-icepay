@@ -1,5 +1,6 @@
 <?php
-use Pronamic\WordPress\Pay\Gateways\Icepay\Integration;
+
+namespace Pronamic\WordPress\Pay\Gateways\Icepay;
 
 /**
  * Title: ICEPAY - Integration test
@@ -10,11 +11,11 @@ use Pronamic\WordPress\Pay\Gateways\Icepay\Integration;
  * @author Remco Tolsma
  * @version 1.0.0
  */
-class Pronamic_WP_Pay_Gateways_Icepay_IntegrationTest extends PHPUnit_Framework_TestCase {
+class IntegrationTest extends \PHPUnit_Framework_TestCase {
 	public function test_config() {
 		$integration = new Integration();
 
-		$expected = 'Pronamic\WordPress\Pay\Gateways\Icepay\ConfigFactory';
+		$expected = __NAMESPACE__ . '\ConfigFactory';
 
 		$class = $integration->get_config_factory_class();
 
