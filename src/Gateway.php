@@ -141,8 +141,6 @@ class Gateway extends Core_Gateway {
 		return $groups;
 	}
 
-	/////////////////////////////////////////////////
-
 	/**
 	 * Get issuer field.
 	 *
@@ -173,8 +171,6 @@ class Gateway extends Core_Gateway {
 		}
 	}
 
-	/////////////////////////////////////////////////
-
 	/**
 	 * Get payment methods
 	 *
@@ -193,8 +189,6 @@ class Gateway extends Core_Gateway {
 		);
 	}
 
-	/////////////////////////////////////////////////
-
 	/**
 	 * Get supported payment methods
 	 *
@@ -208,8 +202,6 @@ class Gateway extends Core_Gateway {
 			PaymentMethods::BANCONTACT,
 		);
 	}
-
-	/////////////////////////////////////////////////
 
 	/**
 	 * Start an transaction
