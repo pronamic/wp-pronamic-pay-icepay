@@ -36,6 +36,16 @@ class Listener {
 
 			$payment = get_pronamic_payment( $reference );
 
+			// Add note.
+			$note = sprintf(
+				/* translators: %s: ICEPAY */
+				__( 'Webhook requested by %s.', 'pronamic_ideal' ),
+				__( 'ICEPAY', 'pronamic_ideal' )
+			);
+
+			$payment->add_note( $note );
+
+			// Update payment.
 			Plugin::update_payment( $payment );
 		}
 	}
