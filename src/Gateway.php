@@ -212,7 +212,7 @@ class Gateway extends Core_Gateway {
 			// Payment object
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
-				->setAmount( Util::amount_to_cents( $payment->get_amount() ) )
+				->setAmount( Util::amount_to_cents( $payment->get_amount()->get_amount() ) )
 				->setCountry( $country )
 				->setLanguage( $language )
 				->setReference( $payment->get_order_id() )
