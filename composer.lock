@@ -45,12 +45,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-pay-gateways/common.git",
-                "reference": "1ab93634d9e00584c0d1b7d26086f64daf7e0c31"
+                "reference": "8b03e4a730aaeee44248a2cf7b570e4f8f678c9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-pay-gateways/common/zipball/1ab93634d9e00584c0d1b7d26086f64daf7e0c31",
-                "reference": "1ab93634d9e00584c0d1b7d26086f64daf7e0c31",
+                "url": "https://api.github.com/repos/wp-pay-gateways/common/zipball/8b03e4a730aaeee44248a2cf7b570e4f8f678c9d",
+                "reference": "8b03e4a730aaeee44248a2cf7b570e4f8f678c9d",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 "wordpress",
                 "wp"
             ],
-            "time": "2018-02-01T14:40:23+00:00"
+            "time": "2018-03-02T12:13:01+00:00"
         },
         {
             "name": "wp-pay/core",
@@ -107,12 +107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-pay/core.git",
-                "reference": "9e2e60b5aff684cbbccd1fb86a45a75a83e7c31c"
+                "reference": "0fc42a266e4bb0d1d5599740fc4a94ea9e939b86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-pay/core/zipball/9e2e60b5aff684cbbccd1fb86a45a75a83e7c31c",
-                "reference": "9e2e60b5aff684cbbccd1fb86a45a75a83e7c31c",
+                "url": "https://api.github.com/repos/wp-pay/core/zipball/0fc42a266e4bb0d1d5599740fc4a94ea9e939b86",
+                "reference": "0fc42a266e4bb0d1d5599740fc4a94ea9e939b86",
                 "shasum": ""
             },
             "require": {
@@ -160,7 +160,7 @@
                 "wordpress",
                 "wp"
             ],
-            "time": "2018-02-06T09:35:27+00:00"
+            "time": "2018-04-19T08:15:17+00:00"
         }
     ],
     "packages-dev": [
@@ -469,23 +469,23 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.7.5",
+            "version": "1.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401"
+                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/dfd6be44111a7c41c2e884a336cc4f461b3b2401",
-                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
+                "reference": "33a7e3c4fda54e912ff6338c48823bd5c0f0b712",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0",
-                "sebastian/comparator": "^1.1|^2.0",
+                "sebastian/comparator": "^1.1|^2.0|^3.0",
                 "sebastian/recursion-context": "^1.0|^2.0|^3.0"
             },
             "require-dev": {
@@ -528,7 +528,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-02-19T10:16:54+00:00"
+            "time": "2018-04-18T13:57:24+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
