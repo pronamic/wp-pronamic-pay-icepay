@@ -1,32 +1,49 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Gateways\Icepay;
+
+use Exception;
+use Icepay_Api_Webservice;
+use Icepay_Basicmode;
+use Icepay_Paymentmethod_Creditcard;
+use Icepay_Paymentmethod_Ddebit;
+use Icepay_Paymentmethod_Ideal;
+use Icepay_Paymentmethod_Mistercash;
+use Icepay_PaymentObject;
+use Icepay_Result;
+use Icepay_StatusCode;
+use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
+use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use Pronamic\WordPress\Pay\Core\Statuses;
+use Pronamic\WordPress\Pay\Core\Util;
+use Pronamic\WordPress\Pay\Payments\Payment;
+use WP_Error;
+
 /**
  * Title: ICEPAY gateway
  * Description:
- * Copyright: Copyright (c) 2005 - 2017
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.3.0
+ * @version 2.0.0
  * @since 1.0.0
  */
-class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
+class Gateway extends Core_Gateway {
 	/**
 	 * Constructs and intializes an ICEPAY gateway
 	 *
-	 * @param Pronamic_WP_Pay_Gateways_Icepay_Config $config
+	 * @param Config $config
 	 */
-	public function __construct( Pronamic_WP_Pay_Gateways_Icepay_Config $config ) {
+	public function __construct( Config $config ) {
 		parent::__construct( $config );
 
 		// Default properties for this gateway
-		$this->set_method( Pronamic_WP_Pay_Gateway::METHOD_HTTP_REDIRECT );
+		$this->set_method( Gateway::METHOD_HTTP_REDIRECT );
 		$this->set_has_feedback( true );
 		$this->set_amount_minimum( 1.20 );
 		$this->set_slug( 'icepay' );
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Filter iDEAL
@@ -34,8 +51,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	private function filter_ideal( $method ) {
 		return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
 	}
-
-	//////////////////////////////////////////////////
 
 	/**
 	 * Get issuers
@@ -47,19 +62,19 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		$issuers = array();
 
 		$methods = Icepay_Api_Webservice::getInstance()
-			->paymentmethodService()
-			->setMerchantID( $this->config->merchant_id )
-			->setSecretCode( $this->config->secret_code )
-			->retrieveAllPaymentmethods()
-			->asArray();
+					->paymentmethodService()
+					->setMerchantID( $this->config->merchant_id )
+					->setSecretCode( $this->config->secret_code )
+					->retrieveAllPaymentmethods()
+					->asArray();
 
 		$ideal_methods = array_filter( $methods, array( $this, 'filter_ideal' ) );
 
 		if ( ! empty( $ideal_methods ) ) {
 			$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
-				->loadFromArray( $methods )
-				->selectPaymentMethodByCode( 'IDEAL' )
-				->getIssuers();
+						->loadFromArray( $methods )
+						->selectPaymentMethodByCode( 'IDEAL' )
+						->getIssuers();
 		}
 
 		if ( $issuers ) {
@@ -126,8 +141,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		return $groups;
 	}
 
-	/////////////////////////////////////////////////
-
 	/**
 	 * Get issuer field.
 	 *
@@ -137,7 +150,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 */
 	public function get_issuer_field() {
 		switch ( $this->get_payment_method() ) {
-			case Pronamic_WP_Pay_PaymentMethods::IDEAL:
+			case PaymentMethods::IDEAL:
 				return array(
 					'id'       => 'pronamic_ideal_issuer_id',
 					'name'     => 'pronamic_ideal_issuer_id',
@@ -146,7 +159,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 					'type'     => 'select',
 					'choices'  => $this->get_transient_issuers(),
 				);
-			case Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD:
+			case PaymentMethods::CREDIT_CARD:
 				return array(
 					'id'       => 'pronamic_credit_card_issuer_id',
 					'name'     => 'pronamic_credit_card_issuer_id',
@@ -158,28 +171,6 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		}
 	}
 
-	/////////////////////////////////////////////////
-
-	/**
-	 * Get payment methods
-	 *
-	 * @see Pronamic_WP_Pay_Gateway::get_payment_methods()
-	 */
-	public function get_payment_methods() {
-		return array(
-			array(
-				'options' => array(
-					Pronamic_WP_Pay_PaymentMethods::IDEAL => Pronamic_WP_Pay_PaymentMethods::IDEAL,
-					Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD => Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD,
-					Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT => Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT,
-					Pronamic_WP_Pay_PaymentMethods::BANCONTACT => Pronamic_WP_Pay_PaymentMethods::MISTER_CASH,
-				),
-			),
-		);
-	}
-
-	/////////////////////////////////////////////////
-
 	/**
 	 * Get supported payment methods
 	 *
@@ -187,21 +178,21 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 	 */
 	public function get_supported_payment_methods() {
 		return array(
-			Pronamic_WP_Pay_PaymentMethods::IDEAL,
-			Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD,
-			Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT,
-			Pronamic_WP_Pay_PaymentMethods::BANCONTACT,
+			PaymentMethods::IDEAL,
+			PaymentMethods::CREDIT_CARD,
+			PaymentMethods::DIRECT_DEBIT,
+			PaymentMethods::BANCONTACT,
 		);
 	}
-
-	/////////////////////////////////////////////////
 
 	/**
 	 * Start an transaction
 	 *
-	 * @see Pronamic_WP_Pay_Gateway::start()
+	 * @see Core_Gateway::start()
+	 *
+	 * @param Payment $payment
 	 */
-	public function start( Pronamic_Pay_Payment $payment ) {
+	public function start( Payment $payment ) {
 		try {
 			$locale = $payment->get_locale();
 
@@ -221,7 +212,7 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			// Payment object
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
-				->setAmount( Pronamic_WP_Pay_Util::amount_to_cents( $payment->get_amount() ) )
+				->setAmount( Util::amount_to_cents( $payment->get_amount()->get_amount() ) )
 				->setCountry( $country )
 				->setLanguage( $language )
 				->setReference( $payment->get_order_id() )
@@ -237,23 +228,23 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 			$icepay_method = null;
 
 			switch ( $payment->get_method() ) {
-				case Pronamic_WP_Pay_PaymentMethods::CREDIT_CARD:
+				case PaymentMethods::CREDIT_CARD:
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 					$icepay_method = new Icepay_Paymentmethod_Creditcard();
 
 					break;
-				case Pronamic_WP_Pay_PaymentMethods::DIRECT_DEBIT:
+				case PaymentMethods::DIRECT_DEBIT:
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
 					$icepay_method = new Icepay_Paymentmethod_Ddebit();
 
 					break;
-				case Pronamic_WP_Pay_PaymentMethods::IDEAL:
+				case PaymentMethods::IDEAL:
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
 					$icepay_method = new Icepay_Paymentmethod_Ideal();
 
 					break;
-				case Pronamic_WP_Pay_PaymentMethods::BANCONTACT:
-				case Pronamic_WP_Pay_PaymentMethods::MISTER_CASH:
+				case PaymentMethods::BANCONTACT:
+				case PaymentMethods::MISTER_CASH:
 					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
 					$icepay_method = new Icepay_Paymentmethod_Mistercash();
 
@@ -285,15 +276,14 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 		}
 	}
 
-	//////////////////////////////////////////////////
-
 	/**
 	 * Update the status of the specified payment
 	 *
-	 * @param Pronamic_Pay_Payment $payment
+	 * @param Payment $payment
+	 *
 	 * @throws Exception
 	 */
-	public function update_status( Pronamic_Pay_Payment $payment ) {
+	public function update_status( Payment $payment ) {
 		// Get the Icepay Result and set the required fields
 		$result = new Icepay_Result();
 		$result
@@ -306,15 +296,15 @@ class Pronamic_WP_Pay_Gateways_Icepay_Gateway extends Pronamic_WP_Pay_Gateway {
 				// What was the status response
 				switch ( $result->getStatus() ) {
 					case Icepay_StatusCode::SUCCESS:
-						$payment->set_status( Pronamic_WP_Pay_Statuses::SUCCESS );
+						$payment->set_status( Statuses::SUCCESS );
 
 						break;
 					case Icepay_StatusCode::OPEN:
-						$payment->set_status( Pronamic_WP_Pay_Statuses::OPEN );
+						$payment->set_status( Statuses::OPEN );
 
 						break;
 					case Icepay_StatusCode::ERROR:
-						$payment->set_status( Pronamic_WP_Pay_Statuses::FAILURE );
+						$payment->set_status( Statuses::FAILURE );
 
 						break;
 				}

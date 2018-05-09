@@ -1,16 +1,18 @@
 <?php
 
+namespace Pronamic\WordPress\Pay\Gateways\Icepay;
+
 /**
  * Title: ICEPAY - Config test
  * Description:
- * Copyright: Copyright (c) 2005 - 2016
+ * Copyright: Copyright (c) 2005 - 2018
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 2.0.0
  */
-class Pronamic_WP_Pay_Gateways_Icepay_ConfigTest extends PHPUnit_Framework_TestCase {
+class ConfigTest extends \PHPUnit_Framework_TestCase {
 	public function test_config() {
-		$config = new Pronamic_WP_Pay_Gateways_Icepay_Config();
+		$config = new Config();
 	}
 }
