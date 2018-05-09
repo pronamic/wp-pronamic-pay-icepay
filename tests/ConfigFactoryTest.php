@@ -9,7 +9,7 @@ namespace Pronamic\WordPress\Pay\Gateways\Icepay;
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 1.0.0
+ * @version 2.0.0
  */
 class Pronamic_WP_Pay_Gateways_Icepay_ConfigFactoryTest extends \PHPUnit_Framework_TestCase {
 	public function test_config() {
