@@ -61,12 +61,16 @@ class Gateway extends Core_Gateway {
 		$groups  = array();
 		$issuers = array();
 
-		$methods = Icepay_Api_Webservice::getInstance()
-					->paymentmethodService()
-					->setMerchantID( $this->config->merchant_id )
-					->setSecretCode( $this->config->secret_code )
-					->retrieveAllPaymentmethods()
-					->asArray();
+		try {
+			$methods = Icepay_Api_Webservice::getInstance()
+						->paymentmethodService()
+						->setMerchantID( $this->config->merchant_id )
+						->setSecretCode( $this->config->secret_code )
+						->retrieveAllPaymentmethods()
+						->asArray();
+		} catch ( Exception $e ) {
+			return $groups;
+		}
 
 		$ideal_methods = array_filter( $methods, array( $this, 'filter_ideal' ) );
 
