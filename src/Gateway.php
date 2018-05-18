@@ -153,6 +153,12 @@ class Gateway extends Core_Gateway {
 	 * @return mixed
 	 */
 	public function get_issuer_field() {
+		$payment_method = $this->get_payment_method();
+
+		if ( empty( $payment_method ) ) {
+			return;
+		}
+
 		switch ( $this->get_payment_method() ) {
 			case PaymentMethods::IDEAL:
 				return array(
