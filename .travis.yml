@@ -45,7 +45,6 @@ matrix:
     - php: nightly
 
 cache:
-  yarn: true
   directories:
     - node_modules
     - vendor
