@@ -40,8 +40,6 @@ class Gateway extends Core_Gateway {
 
 		// Default properties for this gateway
 		$this->set_method( Gateway::METHOD_HTTP_REDIRECT );
-		$this->set_has_feedback( true );
-		$this->set_amount_minimum( 1.20 );
 		$this->set_slug( 'icepay' );
 	}
 
