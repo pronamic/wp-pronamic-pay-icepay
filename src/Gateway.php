@@ -15,7 +15,6 @@ use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Core\Statuses;
-use Pronamic\WordPress\Pay\Core\Util;
 use Pronamic\WordPress\Pay\Payments\Payment;
 use WP_Error;
 
@@ -184,7 +183,7 @@ class Gateway extends Core_Gateway {
 			// Payment object
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
-				->setAmount( Util::amount_to_cents( $payment->get_amount()->get_amount() ) )
+				->setAmount( $payment->get_amount()->get_cents() )
 				->setCountry( $country )
 				->setLanguage( $language )
 				->setReference( $payment->get_order_id() )
