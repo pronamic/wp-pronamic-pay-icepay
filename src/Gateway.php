@@ -200,30 +200,30 @@ class Gateway extends Core_Gateway {
 
 			switch ( $payment->get_method() ) {
 				case PaymentMethods::CREDIT_CARD:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 					$icepay_method = new Icepay_Paymentmethod_Creditcard();
 
 					break;
 				case PaymentMethods::DIRECT_DEBIT:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
 					$icepay_method = new Icepay_Paymentmethod_Ddebit();
 
 					break;
 				case PaymentMethods::IDEAL:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
 					$icepay_method = new Icepay_Paymentmethod_Ideal();
 
 					break;
 				case PaymentMethods::BANCONTACT:
 				case PaymentMethods::MISTER_CASH:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
 					$icepay_method = new Icepay_Paymentmethod_Mistercash();
 
 					break;
 			}
 
 			if ( isset( $icepay_method ) ) {
-				// @see https://github.com/icepay/icepay/blob/2.4.0/api/icepay_api_base.php#L342-L353
+				// @link https://github.com/icepay/icepay/blob/2.4.0/api/icepay_api_base.php#L342-L353
 				$payment_object->setPaymentMethod( $icepay_method->getCode() );
 			}
 

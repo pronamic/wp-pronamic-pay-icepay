@@ -14,6 +14,9 @@ use Pronamic\WordPress\Pay\Plugin;
  * @version 2.0.0
  */
 class Listener {
+	/**
+	 * Listen.
+	 */
 	public static function listen() {
 		if (
 			filter_has_var( INPUT_GET, 'Status' )
