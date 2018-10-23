@@ -2,6 +2,7 @@
 
 namespace Pronamic\WordPress\Pay\Gateways\Icepay;
 
+use Pronamic\WordPress\Pay\Core\Util;
 use Pronamic\WordPress\Pay\Plugin;
 
 /**
@@ -18,38 +19,35 @@ class Listener {
 	 * Listen.
 	 */
 	public static function listen() {
-		if (
-			filter_has_var( INPUT_GET, 'Status' )
-			&&
-			filter_has_var( INPUT_GET, 'StatusCode' )
-			&&
-			filter_has_var( INPUT_GET, 'Merchant' )
-			&&
-			filter_has_var( INPUT_GET, 'OrderID' )
-			&&
-			filter_has_var( INPUT_GET, 'PaymentID' )
-			&&
-			filter_has_var( INPUT_GET, 'Reference' )
-			&&
-			filter_has_var( INPUT_GET, 'TransactionID' )
-			&&
-			filter_has_var( INPUT_GET, 'Checksum' )
-		) {
-			$reference = filter_input( INPUT_GET, 'OrderID', FILTER_SANITIZE_STRING );
+		$variable_names = array(
+			'Status',
+			'StatusCode',
+			'Merchant',
+			'OrderID',
+			'PaymentID',
+			'Reference',
+			'TransactionID',
+			'Checksum',
+		);
 
-			$payment = get_pronamic_payment( $reference );
-
-			// Add note.
-			$note = sprintf(
-				/* translators: %s: ICEPAY */
-				__( 'Webhook requested by %s.', 'pronamic_ideal' ),
-				__( 'ICEPAY', 'pronamic_ideal' )
-			);
-
-			$payment->add_note( $note );
-
-			// Update payment.
-			Plugin::update_payment( $payment );
+		if ( ! Util::input_has_vars( INPUT_GET, $variable_names ) ) {
+			return;
 		}
+
+		$reference = filter_input( INPUT_GET, 'OrderID', FILTER_SANITIZE_STRING );
+
+		$payment = get_pronamic_payment( $reference );
+
+		// Add note.
+		$note = sprintf(
+			/* translators: %s: ICEPAY */
+			__( 'Webhook requested by %s.', 'pronamic_ideal' ),
+			__( 'ICEPAY', 'pronamic_ideal' )
+		);
+
+		$payment->add_note( $note );
+
+		// Update payment.
+		Plugin::update_payment( $payment );
 	}
 }
