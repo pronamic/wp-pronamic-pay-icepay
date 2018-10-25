@@ -189,6 +189,20 @@ class Gateway extends Core_Gateway {
 				->setIssuer( $payment->get_issuer() )
 				->setOrderID( $payment->format_string( $this->config->order_id ) );
 
+			if ( null !== $payment->get_customer() ) {
+				// Language.
+				$language = strtoupper( $payment->get_customer()->get_language() );
+
+				$payment_object->setLanguage( $language );
+
+				// Country.
+				$locale = $payment->get_customer()->get_locale();
+
+				$country = strtoupper( substr( $locale, 3, 2 ) );
+
+				$payment_object->setCountry( $country );
+			}
+
 			/*
 			 * Payment method
 			 * @since 1.2.0
