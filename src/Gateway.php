@@ -32,18 +32,22 @@ class Gateway extends Core_Gateway {
 	/**
 	 * Constructs and intializes an ICEPAY gateway
 	 *
-	 * @param Config $config
+	 * @param Config $config Config.
 	 */
 	public function __construct( Config $config ) {
 		parent::__construct( $config );
 
-		// Default properties for this gateway
+		// Default properties for this gateway.
 		$this->set_method( self::METHOD_HTTP_REDIRECT );
 		$this->set_slug( 'icepay' );
 	}
 
 	/**
 	 * Filter iDEAL
+	 *
+	 * @param array $method Payment method.
+	 *
+	 * @return bool
 	 */
 	private function filter_ideal( $method ) {
 		return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
@@ -161,15 +165,10 @@ class Gateway extends Core_Gateway {
 	 *
 	 * @see Core_Gateway::start()
 	 *
-	 * @param Payment $payment
+	 * @param Payment $payment Payment.
 	 */
 	public function start( Payment $payment ) {
 		try {
-			$locale = $payment->get_locale();
-
-			$language = strtoupper( substr( $locale, 0, 2 ) );
-			$country  = strtoupper( substr( $locale, 3, 2 ) );
-
 			/*
 			 * Order ID
 			 * Your unique order number.
@@ -180,12 +179,10 @@ class Gateway extends Core_Gateway {
 			 * Required   = Yes
 			 */
 
-			// Payment object
+			// Payment object.
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
 				->setAmount( $payment->get_total_amount()->get_cents() )
-				->setCountry( $country )
-				->setLanguage( $language )
 				->setReference( $payment->get_order_id() )
 				->setDescription( $payment->get_description() )
 				->setCurrency( $payment->get_total_amount()->get_currency()->get_alphabetic_code() )
@@ -227,10 +224,10 @@ class Gateway extends Core_Gateway {
 				$payment_object->setPaymentMethod( $icepay_method->getCode() );
 			}
 
-			// Protocol
+			// Protocol.
 			$protocol = is_ssl() ? 'https' : 'http';
 
-			// Basic mode
+			// Basic mode.
 			$basicmode = Icepay_Basicmode::getInstance();
 			$basicmode
 				->setMerchantID( $this->config->merchant_id )
@@ -240,7 +237,7 @@ class Gateway extends Core_Gateway {
 				->setErrorURL( $payment->get_return_url() )
 				->validatePayment( $payment_object );
 
-			// Payment
+			// Action URL.
 			$payment->set_action_url( $basicmode->getURL() );
 		} catch ( Exception $exception ) {
 			$this->error = new WP_Error( 'icepay_error', $exception->getMessage(), $exception );
@@ -250,21 +247,21 @@ class Gateway extends Core_Gateway {
 	/**
 	 * Update the status of the specified payment
 	 *
-	 * @param Payment $payment
+	 * @param Payment $payment Payment.
 	 *
 	 * @throws Exception
 	 */
 	public function update_status( Payment $payment ) {
-		// Get the Icepay Result and set the required fields
+		// Get the Icepay Result and set the required fields.
 		$result = new Icepay_Result();
 		$result
 			->setMerchantID( $this->config->merchant_id )
 			->setSecretCode( $this->config->secret_code );
 
 		try {
-			// Determine if the result can be validated
+			// Determine if the result can be validated.
 			if ( $result->validate() ) {
-				// What was the status response
+				// What was the status response.
 				switch ( $result->getStatus() ) {
 					case Icepay_StatusCode::SUCCESS:
 						$payment->set_status( Statuses::SUCCESS );
