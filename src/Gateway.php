@@ -15,7 +15,6 @@ use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Core\Statuses;
-use Pronamic\WordPress\Pay\Core\Util;
 use Pronamic\WordPress\Pay\Payments\Payment;
 use WP_Error;
 
@@ -26,27 +25,29 @@ use WP_Error;
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 2.0.0
+ * @version 2.0.1
  * @since 1.0.0
  */
 class Gateway extends Core_Gateway {
 	/**
 	 * Constructs and intializes an ICEPAY gateway
 	 *
-	 * @param Config $config
+	 * @param Config $config Config.
 	 */
 	public function __construct( Config $config ) {
 		parent::__construct( $config );
 
-		// Default properties for this gateway
-		$this->set_method( Gateway::METHOD_HTTP_REDIRECT );
-		$this->set_has_feedback( true );
-		$this->set_amount_minimum( 1.20 );
+		// Default properties for this gateway.
+		$this->set_method( self::METHOD_HTTP_REDIRECT );
 		$this->set_slug( 'icepay' );
 	}
 
 	/**
 	 * Filter iDEAL
+	 *
+	 * @param array $method Payment method.
+	 *
+	 * @return bool
 	 */
 	private function filter_ideal( $method ) {
 		return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
@@ -61,12 +62,16 @@ class Gateway extends Core_Gateway {
 		$groups  = array();
 		$issuers = array();
 
-		$methods = Icepay_Api_Webservice::getInstance()
-					->paymentmethodService()
-					->setMerchantID( $this->config->merchant_id )
-					->setSecretCode( $this->config->secret_code )
-					->retrieveAllPaymentmethods()
-					->asArray();
+		try {
+			$methods = Icepay_Api_Webservice::getInstance()
+						->paymentmethodService()
+						->setMerchantID( $this->config->merchant_id )
+						->setSecretCode( $this->config->secret_code )
+						->retrieveAllPaymentmethods()
+						->asArray();
+		} catch ( Exception $e ) {
+			return $groups;
+		}
 
 		$ideal_methods = array_filter( $methods, array( $this, 'filter_ideal' ) );
 
@@ -142,36 +147,6 @@ class Gateway extends Core_Gateway {
 	}
 
 	/**
-	 * Get issuer field.
-	 *
-	 * @since 1.0.0
-	 * @version 1.2.4
-	 * @return mixed
-	 */
-	public function get_issuer_field() {
-		switch ( $this->get_payment_method() ) {
-			case PaymentMethods::IDEAL:
-				return array(
-					'id'       => 'pronamic_ideal_issuer_id',
-					'name'     => 'pronamic_ideal_issuer_id',
-					'label'    => __( 'Choose your bank', 'pronamic_ideal' ),
-					'required' => true,
-					'type'     => 'select',
-					'choices'  => $this->get_transient_issuers(),
-				);
-			case PaymentMethods::CREDIT_CARD:
-				return array(
-					'id'       => 'pronamic_credit_card_issuer_id',
-					'name'     => 'pronamic_credit_card_issuer_id',
-					'label'    => __( 'Choose your credit card issuer', 'pronamic_ideal' ),
-					'required' => true,
-					'type'     => 'select',
-					'choices'  => $this->get_transient_credit_card_issuers(),
-				);
-		}
-	}
-
-	/**
 	 * Get supported payment methods
 	 *
 	 * @see Pronamic_WP_Pay_Gateway::get_supported_payment_methods()
@@ -190,15 +165,10 @@ class Gateway extends Core_Gateway {
 	 *
 	 * @see Core_Gateway::start()
 	 *
-	 * @param Payment $payment
+	 * @param Payment $payment Payment.
 	 */
 	public function start( Payment $payment ) {
 		try {
-			$locale = $payment->get_locale();
-
-			$language = strtoupper( substr( $locale, 0, 2 ) );
-			$country  = strtoupper( substr( $locale, 3, 2 ) );
-
 			/*
 			 * Order ID
 			 * Your unique order number.
@@ -209,17 +179,29 @@ class Gateway extends Core_Gateway {
 			 * Required   = Yes
 			 */
 
-			// Payment object
+			// Payment object.
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
-				->setAmount( Util::amount_to_cents( $payment->get_amount()->get_amount() ) )
-				->setCountry( $country )
-				->setLanguage( $language )
+				->setAmount( $payment->get_total_amount()->get_cents() )
 				->setReference( $payment->get_order_id() )
 				->setDescription( $payment->get_description() )
-				->setCurrency( $payment->get_currency() )
+				->setCurrency( $payment->get_total_amount()->get_currency()->get_alphabetic_code() )
 				->setIssuer( $payment->get_issuer() )
 				->setOrderID( $payment->format_string( $this->config->order_id ) );
+
+			if ( null !== $payment->get_customer() ) {
+				// Language.
+				$language = strtoupper( $payment->get_customer()->get_language() );
+
+				$payment_object->setLanguage( $language );
+
+				// Country.
+				$locale = $payment->get_customer()->get_locale();
+
+				$country = strtoupper( substr( $locale, 3, 2 ) );
+
+				$payment_object->setCountry( $country );
+			}
 
 			/*
 			 * Payment method
@@ -229,37 +211,37 @@ class Gateway extends Core_Gateway {
 
 			switch ( $payment->get_method() ) {
 				case PaymentMethods::CREDIT_CARD:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 					$icepay_method = new Icepay_Paymentmethod_Creditcard();
 
 					break;
 				case PaymentMethods::DIRECT_DEBIT:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
 					$icepay_method = new Icepay_Paymentmethod_Ddebit();
 
 					break;
 				case PaymentMethods::IDEAL:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
 					$icepay_method = new Icepay_Paymentmethod_Ideal();
 
 					break;
 				case PaymentMethods::BANCONTACT:
 				case PaymentMethods::MISTER_CASH:
-					// @see https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
 					$icepay_method = new Icepay_Paymentmethod_Mistercash();
 
 					break;
 			}
 
 			if ( isset( $icepay_method ) ) {
-				// @see https://github.com/icepay/icepay/blob/2.4.0/api/icepay_api_base.php#L342-L353
+				// @link https://github.com/icepay/icepay/blob/2.4.0/api/icepay_api_base.php#L342-L353
 				$payment_object->setPaymentMethod( $icepay_method->getCode() );
 			}
 
-			// Protocol
+			// Protocol.
 			$protocol = is_ssl() ? 'https' : 'http';
 
-			// Basic mode
+			// Basic mode.
 			$basicmode = Icepay_Basicmode::getInstance();
 			$basicmode
 				->setMerchantID( $this->config->merchant_id )
@@ -269,7 +251,7 @@ class Gateway extends Core_Gateway {
 				->setErrorURL( $payment->get_return_url() )
 				->validatePayment( $payment_object );
 
-			// Payment
+			// Action URL.
 			$payment->set_action_url( $basicmode->getURL() );
 		} catch ( Exception $exception ) {
 			$this->error = new WP_Error( 'icepay_error', $exception->getMessage(), $exception );
@@ -279,21 +261,21 @@ class Gateway extends Core_Gateway {
 	/**
 	 * Update the status of the specified payment
 	 *
-	 * @param Payment $payment
+	 * @param Payment $payment Payment.
 	 *
 	 * @throws Exception
 	 */
 	public function update_status( Payment $payment ) {
-		// Get the Icepay Result and set the required fields
+		// Get the Icepay Result and set the required fields.
 		$result = new Icepay_Result();
 		$result
 			->setMerchantID( $this->config->merchant_id )
 			->setSecretCode( $this->config->secret_code );
 
 		try {
-			// Determine if the result can be validated
+			// Determine if the result can be validated.
 			if ( $result->validate() ) {
-				// What was the status response
+				// What was the status response.
 				switch ( $result->getStatus() ) {
 					case Icepay_StatusCode::SUCCESS:
 						$payment->set_status( Statuses::SUCCESS );
