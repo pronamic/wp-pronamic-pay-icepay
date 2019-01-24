@@ -179,29 +179,29 @@ class Gateway extends Core_Gateway {
 			 * Required   = Yes
 			 */
 
+			// Locale, country and language.
+			$locale   = get_locale();
+			$language = substr( $locale, 0, 2 );
+
+			if ( null !== $payment->get_customer() ) {
+				$locale = $payment->get_customer()->get_locale();
+
+				$language = strtoupper( $payment->get_customer()->get_language() );
+			}
+
+			$country = strtoupper( substr( $locale, 3, 2 ) );
+
 			// Payment object.
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
 				->setAmount( $payment->get_total_amount()->get_cents() )
+				->setCountry( $country )
+				->setLanguage( $language )
 				->setReference( $payment->get_order_id() )
 				->setDescription( $payment->get_description() )
 				->setCurrency( $payment->get_total_amount()->get_currency()->get_alphabetic_code() )
 				->setIssuer( $payment->get_issuer() )
 				->setOrderID( $payment->format_string( $this->config->order_id ) );
-
-			if ( null !== $payment->get_customer() ) {
-				// Language.
-				$language = strtoupper( $payment->get_customer()->get_language() );
-
-				$payment_object->setLanguage( $language );
-
-				// Country.
-				$locale = $payment->get_customer()->get_locale();
-
-				$country = strtoupper( substr( $locale, 3, 2 ) );
-
-				$payment_object->setCountry( $country );
-			}
 
 			/*
 			 * Payment method
