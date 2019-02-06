@@ -15,9 +15,12 @@ module.exports = function( grunt ) {
 		phpcs: {
 			application: {
 				src: [
-					'src/**/*.php',
-					'tests/**/*.php'
-				],
+					'**/*.php',
+					'!node_modules/**',
+					'!vendor/**',
+					'!wp-content/**',
+					'!wordpress/**'
+				]
 			},
 			options: {
 				bin: 'vendor/bin/phpcs',
