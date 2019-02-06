@@ -191,6 +191,15 @@ class Gateway extends Core_Gateway {
 
 			$country = strtoupper( substr( $locale, 3, 2 ) );
 
+			// Set country from billing address.
+			if ( null !== $payment->get_billing_address() ) {
+				$country_code = $payment->get_billing_address()->get_country_code();
+
+				if ( ! empty( $country_code ) ) {
+					$country = $country_code;
+				}
+			}
+
 			// Payment object.
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
