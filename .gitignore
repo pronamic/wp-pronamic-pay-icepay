@@ -12,8 +12,5 @@
 # Node.js
 /node_modules/
 
-# WordPress content
-/wp-content/
-
 # WordPress
 /wordpress/
