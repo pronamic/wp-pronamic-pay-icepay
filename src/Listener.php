@@ -38,6 +38,10 @@ class Listener {
 
 		$payment = get_pronamic_payment( $reference );
 
+		if ( null === $payment ) {
+			return;
+		}
+
 		// Add note.
 		$note = sprintf(
 			/* translators: %s: ICEPAY */
