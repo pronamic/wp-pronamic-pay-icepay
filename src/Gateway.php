@@ -242,14 +242,14 @@ class Gateway extends Core_Gateway {
 					break;
 			}
 
-			// Force language 'NL' for unsupported languages (i.e. 'EN' for iDEAL).
-			if ( ! in_array( $language, $icepay_method->getSupportedLanguages() ) ) {
-				$payment_object->setLanguage( 'NL' );
-			}
-
 			if ( isset( $icepay_method ) ) {
 				// @link https://github.com/icepay/icepay/blob/2.4.0/api/icepay_api_base.php#L342-L353
 				$payment_object->setPaymentMethod( $icepay_method->getCode() );
+
+				// Force language 'NL' for unsupported languages (i.e. 'EN' for iDEAL).
+				if ( ! in_array( $language, $icepay_method->getSupportedLanguages() ) ) {
+					$payment_object->setLanguage( 'NL' );
+				}
 			}
 
 			// Protocol.
