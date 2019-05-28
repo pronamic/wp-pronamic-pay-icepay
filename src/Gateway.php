@@ -247,7 +247,7 @@ class Gateway extends Core_Gateway {
 				$payment_object->setPaymentMethod( $icepay_method->getCode() );
 
 				// Force language 'NL' for unsupported languages (i.e. 'EN' for iDEAL).
-				if ( ! in_array( $language, $icepay_method->getSupportedLanguages() ) ) {
+				if ( ! in_array( $language, $icepay_method->getSupportedLanguages(), true ) ) {
 					$payment_object->setLanguage( 'NL' );
 				}
 			}
