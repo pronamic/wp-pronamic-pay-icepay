@@ -40,6 +40,20 @@ class Gateway extends Core_Gateway {
 		// Default properties for this gateway.
 		$this->set_method( self::METHOD_HTTP_REDIRECT );
 		$this->set_slug( 'icepay' );
+
+		// Supported features.
+		$this->supports = self::get_supported_features();
+	}
+
+	/**
+	 * Get supported features.
+	 *
+	 * @return array
+	 */
+	public static function get_supported_features() {
+		return array(
+			'webhook_manual_config',
+		);
 	}
 
 	/**

@@ -3,6 +3,7 @@
 namespace Pronamic\WordPress\Pay\Gateways\Icepay;
 
 use Pronamic\WordPress\Pay\Core\GatewaySettings;
+use Pronamic\WordPress\Pay\WebhookManager;
 
 /**
  * Title: ICEPAY gateway settings
@@ -40,6 +41,7 @@ class Settings extends GatewaySettings {
 			'title'       => __( 'Transaction feedback', 'pronamic_ideal' ),
 			'methods'     => array( 'icepay' ),
 			'description' => __( 'Set the below URLs in the payment provider dashboard to receive automatic transaction status updates.', 'pronamic_ideal' ),
+			'features'    => Gateway::get_supported_features(),
 		);
 
 		return $sections;
@@ -69,13 +71,12 @@ class Settings extends GatewaySettings {
 
 		// Transaction feedback
 		$fields[] = array(
-			'section' => 'icepay',
-			'title'   => __( 'Transaction feedback', 'pronamic_ideal' ),
-			'type'    => 'description',
-			'html'    => sprintf(
-				'<span class="dashicons dashicons-warning"></span> %s',
-				__( 'Receiving payment status updates needs additional configuration, if not yet completed.', 'pronamic_ideal' )
-			),
+			'section'  => 'icepay',
+			'methods'  => array( 'icepay' ),
+			'title'    => __( 'Transaction feedback', 'pronamic_ideal' ),
+			'type'     => 'description',
+			'html'     => __( 'Receiving payment status updates needs additional configuration.', 'pronamic_ideal' ),
+			'features' => Gateway::get_supported_features(),
 		);
 
 		// Purchase ID
@@ -140,6 +141,26 @@ class Settings extends GatewaySettings {
 			'readonly' => true,
 		);
 
+		// Webhook status.
+		$fields[] = array(
+			'section'  => 'icepay_feedback',
+			'methods'  => array( 'icepay' ),
+			'title'    => __( 'Status', 'pronamic_ideal' ),
+			'type'     => 'description',
+			'callback' => array( $this, 'feedback_status' ),
+		);
+
 		return $fields;
+	}
+
+	/**
+	 * Transaction feedback status.
+	 *
+	 * @param array $field Settings field.
+	 */
+	public function feedback_status( $field ) {
+		$features = Gateway::get_supported_features();
+
+		WebhookManager::settings_status( $field, $features );
 	}
 }
