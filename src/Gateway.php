@@ -42,18 +42,7 @@ class Gateway extends Core_Gateway {
 		$this->set_slug( 'icepay' );
 
 		// Supported features.
-		$this->supports = self::get_supported_features();
-	}
-
-	/**
-	 * Get supported features.
-	 *
-	 * @return array
-	 */
-	public static function get_supported_features() {
-		return array(
-			'webhook_manual_config',
-		);
+		$this->supports = array();
 	}
 
 	/**
