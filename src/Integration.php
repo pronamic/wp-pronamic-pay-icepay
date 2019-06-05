@@ -15,13 +15,22 @@ use Pronamic\WordPress\Pay\Gateways\Common\AbstractIntegration;
  * @since 1.0.0
  */
 class Integration extends AbstractIntegration {
-	public function __construct() {
-		$this->id            = 'icepay-ideal';
-		$this->name          = 'ICEPAY';
-		$this->url           = 'https://icepay.com/';
-		$this->product_url   = __( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' );
-		$this->dashboard_url = 'https://portal.icepay.com/';
-		$this->provider      = 'icepay';
+	public function __construct( $args = array() ) {
+		$args = wp_parse_args( $args, array(
+			'id'            => 'icepay-ideal',
+			'name'          => 'ICEPAY',
+			'url'           => 'https://icepay.com/',
+			'product_url'   => __( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
+			'dashboard_url' => 'https://portal.icepay.com/',
+			'provider'      => 'icepay',
+		) );
+
+		$this->id            = $args['id'];
+		$this->name          = $args['name'];
+		$this->url           = $args['url'];
+		$this->product_url   = $args['product_url'];
+		$this->dashboard_url = $args['dashboard_url'];
+		$this->provider      = $args['provider'];
 
 		// Actions
 		$function = array( __NAMESPACE__ . '\Listener', 'listen' );
@@ -29,10 +38,6 @@ class Integration extends AbstractIntegration {
 		if ( ! has_action( 'wp_loaded', $function ) ) {
 			add_action( 'wp_loaded', $function );
 		}
-	}
-
-	public function get_config_factory_class() {
-		return __NAMESPACE__ . '\ConfigFactory';
 	}
 
 	public function get_settings_fields() {
@@ -121,15 +126,16 @@ class Integration extends AbstractIntegration {
 			'readonly' => true,
 		);
 
-		// Webhook status.
-		$fields[] = array(
-			'section'  => 'feedback',
-			'methods'  => array( 'icepay' ),
-			'title'    => __( 'Status', 'pronamic_ideal' ),
-			'type'     => 'description',
-			'callback' => array( $this, 'feedback_status' ),
-		);
-
 		return $fields;
+	}
+
+	public function get_config( $post_id ) {
+		$config = new Config();
+
+		$config->merchant_id = get_post_meta( $post_id, '_pronamic_gateway_icepay_merchant_id', true );
+		$config->secret_code = get_post_meta( $post_id, '_pronamic_gateway_icepay_secret_code', true );
+		$config->order_id    = get_post_meta( $post_id, '_pronamic_gateway_icepay_order_id', true );
+
+		return $config;
 	}
 }
