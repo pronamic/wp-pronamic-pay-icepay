@@ -16,14 +16,17 @@ use Pronamic\WordPress\Pay\Gateways\Common\AbstractIntegration;
  */
 class Integration extends AbstractIntegration {
 	public function __construct( $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'id'            => 'icepay-ideal',
-			'name'          => 'ICEPAY',
-			'url'           => 'https://icepay.com/',
-			'product_url'   => __( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
-			'dashboard_url' => 'https://portal.icepay.com/',
-			'provider'      => 'icepay',
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'id'            => 'icepay-ideal',
+				'name'          => 'ICEPAY',
+				'url'           => 'https://icepay.com/',
+				'product_url'   => __( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
+				'dashboard_url' => 'https://portal.icepay.com/',
+				'provider'      => 'icepay',
+			)
+		);
 
 		$this->id            = $args['id'];
 		$this->name          = $args['name'];
