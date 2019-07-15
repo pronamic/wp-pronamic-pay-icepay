@@ -34,6 +34,10 @@ class Integration extends AbstractIntegration {
 		$this->product_url   = $args['product_url'];
 		$this->dashboard_url = $args['dashboard_url'];
 		$this->provider      = $args['provider'];
+		$this->supports      = array(
+			'webhook',
+			'webhook_log',
+		);
 
 		// Actions
 		$function = array( __NAMESPACE__ . '\Listener', 'listen' );

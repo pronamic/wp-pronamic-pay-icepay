@@ -4,7 +4,6 @@ namespace Pronamic\WordPress\Pay\Gateways\Icepay;
 
 use Pronamic\WordPress\Pay\Core\Util;
 use Pronamic\WordPress\Pay\Plugin;
-use Pronamic\WordPress\Pay\WebhookManager;
 
 /**
  * Title: ICEPAY listener
@@ -53,7 +52,7 @@ class Listener {
 		$payment->add_note( $note );
 
 		// Log webhook request.
-		WebhookManager::log_payment( $payment );
+		do_action( 'pronamic_pay_webhook_log_payment', $payment );
 
 		// Update payment.
 		Plugin::update_payment( $payment );
