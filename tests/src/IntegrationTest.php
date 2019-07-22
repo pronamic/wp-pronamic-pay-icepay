@@ -12,14 +12,42 @@ namespace Pronamic\WordPress\Pay\Gateways\Icepay;
  * @version 2.0.0
  */
 class IntegrationTest extends \PHPUnit_Framework_TestCase {
+	/**
+	 * Integration.
+	 *
+	 * @var Integration
+	 */
+	public $integration;
+
+	/**
+	 * Setup.
+	 */
+	public function setUp() {
+		$this->integration = new Integration();
+	}
+
+	/**
+	 * Test config.
+	 */
 	public function test_config() {
-		$integration = new Integration();
+		$config = $this->integration->get_config( 99 );
 
-		$expected = __NAMESPACE__ . '\ConfigFactory';
+		$this->assertInstanceOf( __NAMESPACE__ . '\Config', $config );
+	}
 
-		$class = $integration->get_config_factory_class();
+	/**
+	 * Test gateway.
+	 */
+	public function test_gateway() {
+		$gateway = $this->integration->get_gateway( 99 );
 
-		$this->assertEquals( $expected, $class );
-		$this->assertTrue( class_exists( $class ) );
+		$this->assertInstanceOf( __NAMESPACE__ . '\Gateway', $gateway );
+	}
+
+	/**
+	 * Test settings.
+	 */
+	public function test_settings() {
+		$this->assertInternalType( 'array', $this->integration->get_settings_fields() );
 	}
 }
