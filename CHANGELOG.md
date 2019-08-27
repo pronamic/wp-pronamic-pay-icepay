@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [2.0.4] - 2019-08-27
+- Updated packages.
+
 ## [2.0.3] - 2019-05-15
 - Set country from billing address.
 
@@ -54,7 +57,7 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 - Make sure to use language and country values from payment data object.
 
 ## [1.2.1] - 2015-03-03
-- Changed WordPress pay core library requirment from ~1.0.0 to >=1.0.0.
+- Changed WordPress pay core library requirment from `~1.0.0` to `>=1.0.0`.
 
 ## [1.2.0] - 2015-02-16
 - Added support for multiple payment methods.
@@ -66,7 +69,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-01-19
 - First release.
 
-[unreleased]: https://github.com/wp-pay-gateways/icepay/compare/2.0.3...HEAD
+[unreleased]: https://github.com/wp-pay-gateways/icepay/compare/2.0.4...HEAD
+[2.0.4]: https://github.com/wp-pay-gateways/icepay/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/wp-pay-gateways/icepay/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/wp-pay-gateways/icepay/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/wp-pay-gateways/icepay/compare/2.0.0...2.0.1
