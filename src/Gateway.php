@@ -7,6 +7,7 @@ use Icepay_Api_Webservice;
 use Icepay_Basicmode;
 use Icepay_Paymentmethod_Creditcard;
 use Icepay_Paymentmethod_Ddebit;
+use Icepay_Paymentmethod_Directebank;
 use Icepay_Paymentmethod_Ideal;
 use Icepay_Paymentmethod_Mistercash;
 use Icepay_PaymentObject;
@@ -159,6 +160,7 @@ class Gateway extends Core_Gateway {
 			PaymentMethods::CREDIT_CARD,
 			PaymentMethods::DIRECT_DEBIT,
 			PaymentMethods::BANCONTACT,
+			PaymentMethods::SOFORT,
 		);
 	}
 
@@ -242,6 +244,24 @@ class Gateway extends Core_Gateway {
 					$icepay_method = new Icepay_Paymentmethod_Mistercash();
 
 					break;
+				case PaymentMethods::SOFORT:
+					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/directebank.php
+					$icepay_method = new Icepay_Paymentmethod_Directebank();
+
+					// Set issuer.
+					$issuer = 'DIGITAL';
+
+					$lines = $payment->get_lines();
+
+					if ( null !== $lines ) {
+						foreach ( $lines as $line ) {
+							$issuer = DirectebankIssuers::transform( $line->get_type() );
+
+							break;
+						}
+					}
+
+					$payment_object->setIssuer( $issuer );
 			}
 
 			if ( isset( $icepay_method ) ) {
