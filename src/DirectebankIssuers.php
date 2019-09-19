@@ -51,7 +51,7 @@ class DirectebankIssuers {
 	public static function transform( $type ) {
 		switch ( $type ) {
 			case PaymentLineType::PHYSICAL:
-				return self::PHYSICAL;
+				return self::RETAIL;
 
 			case PaymentLineType::DIGITAL:
 			case PaymentLineType::DISCOUNT:
