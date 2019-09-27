@@ -17,7 +17,6 @@ use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Core\Statuses;
 use Pronamic\WordPress\Pay\Payments\Payment;
-use WP_Error;
 
 /**
  * Title: ICEPAY gateway
@@ -289,8 +288,8 @@ class Gateway extends Core_Gateway {
 
 			// Action URL.
 			$payment->set_action_url( $basicmode->getURL() );
-		} catch ( Exception $exception ) {
-			$this->error = new WP_Error( 'icepay_error', $exception->getMessage(), $exception );
+		} catch ( Exception $e ) {
+			throw new \Pronamic\WordPress\Pay\GatewayException( 'icepay', $e->getMessage(), $e );
 		}
 	}
 
@@ -327,8 +326,8 @@ class Gateway extends Core_Gateway {
 						break;
 				}
 			}
-		} catch ( Exception $exception ) {
-			$this->error = new WP_Error( 'icepay_error', $exception->getMessage(), $exception );
+		} catch ( Exception $e ) {
+			throw new \Pronamic\WordPress\Pay\GatewayException( 'icepay', $e->getMessage(), $e );
 		}
 	}
 }
