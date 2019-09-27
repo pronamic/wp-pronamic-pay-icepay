@@ -15,7 +15,7 @@ use Icepay_Result;
 use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
-use Pronamic\WordPress\Pay\Core\Statuses;
+use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
 
 /**
@@ -313,15 +313,15 @@ class Gateway extends Core_Gateway {
 				// What was the status response.
 				switch ( $result->getStatus() ) {
 					case Icepay_StatusCode::SUCCESS:
-						$payment->set_status( Statuses::SUCCESS );
+						$payment->set_status( PaymentStatus::SUCCESS );
 
 						break;
 					case Icepay_StatusCode::OPEN:
-						$payment->set_status( Statuses::OPEN );
+						$payment->set_status( PaymentStatus::OPEN );
 
 						break;
 					case Icepay_StatusCode::ERROR:
-						$payment->set_status( Statuses::FAILURE );
+						$payment->set_status( PaymentStatus::FAILURE );
 
 						break;
 				}
