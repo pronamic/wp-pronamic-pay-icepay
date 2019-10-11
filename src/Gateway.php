@@ -325,10 +325,16 @@ class Gateway extends Core_Gateway {
 					case Icepay_StatusCode::ERROR:
 						$status = PaymentStatus::FAILURE;
 
-						// Check if payment is cancelled.
-						$data = ( 'POST' === Server::get( 'REQUEST_METHOD' ) ? $result->getPostback() : $result->getResultData() );
+						$data = null;
 
-						if ( isset( $data->statusCode ) && 'Cancelled' === $data->statusCode ) {
+						// Check if payment is cancelled.
+						if ( $result instanceof \Icepay_Postback ) {
+							$data = $result->getPostback();
+						} elseif ( $result instanceof \Icepay_Result ) {
+							$data = $result->getResultData();
+						}
+
+						if ( \is_object( $data ) && isset( $data->statusCode ) && 'Cancelled' === $data->statusCode ) {
 							$status = PaymentStatus::CANCELLED;
 						}
 
