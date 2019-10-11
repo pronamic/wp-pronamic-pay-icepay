@@ -30,11 +30,11 @@ class Listener {
 			'Checksum',
 		);
 
-		if ( ! Util::input_has_vars( INPUT_GET, $variable_names ) ) {
+		if ( ! Util::input_has_vars( INPUT_POST, $variable_names ) ) {
 			return;
 		}
 
-		$reference = filter_input( INPUT_GET, 'OrderID', FILTER_SANITIZE_STRING );
+		$reference = filter_input( INPUT_POST, 'OrderID', FILTER_SANITIZE_STRING );
 
 		$payment = get_pronamic_payment( $reference );
 

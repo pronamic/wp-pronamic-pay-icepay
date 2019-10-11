@@ -11,10 +11,12 @@ use Icepay_Paymentmethod_Directebank;
 use Icepay_Paymentmethod_Ideal;
 use Icepay_Paymentmethod_Mistercash;
 use Icepay_PaymentObject;
+use Icepay_Postback;
 use Icepay_Result;
 use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use Pronamic\WordPress\Pay\Core\Server;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
 use WP_Error;
@@ -26,7 +28,7 @@ use WP_Error;
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 2.0.5
+ * @version 2.0.6
  * @since 1.0.0
  */
 class Gateway extends Core_Gateway {
@@ -298,17 +300,16 @@ class Gateway extends Core_Gateway {
 	 * Update the status of the specified payment
 	 *
 	 * @param Payment $payment Payment.
-	 *
-	 * @throws Exception
 	 */
 	public function update_status( Payment $payment ) {
 		// Get the Icepay Result and set the required fields.
-		$result = new Icepay_Result();
-		$result
-			->setMerchantID( $this->config->merchant_id )
-			->setSecretCode( $this->config->secret_code );
+		$result = ( 'POST' === Server::get( 'REQUEST_METHOD' ) ? new Icepay_Postback() : new Icepay_Result() );
 
 		try {
+			$result
+				->setMerchantID( $this->config->merchant_id )
+				->setSecretCode( $this->config->secret_code );
+
 			// Determine if the result can be validated.
 			if ( $result->validate() ) {
 				// What was the status response.
@@ -322,7 +323,16 @@ class Gateway extends Core_Gateway {
 
 						break;
 					case Icepay_StatusCode::ERROR:
-						$payment->set_status( PaymentStatus::FAILURE );
+						$status = PaymentStatus::FAILURE;
+
+						// Check if payment is cancelled.
+						$data = ( 'POST' === Server::get( 'REQUEST_METHOD' ) ? $result->getPostback() : $result->getResultData() );
+
+						if ( isset( $data->statusCode ) && 'Cancelled' === $data->statusCode ) {
+							$status = PaymentStatus::CANCELLED;
+						}
+
+						$payment->set_status( $status );
 
 						break;
 				}

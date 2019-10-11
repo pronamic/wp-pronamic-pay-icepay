@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
 ## [Unreleased][unreleased]
--
+- Fixed ICEPAY postback processing.
 
 ## [2.0.5] - 2019-10-04
 - Added support for Klarna (Directebank) payment method.
