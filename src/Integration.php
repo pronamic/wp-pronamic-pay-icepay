@@ -23,6 +23,7 @@ class Integration extends AbstractIntegration {
 				'name'          => 'ICEPAY',
 				'url'           => 'https://icepay.com/',
 				'product_url'   => __( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
+				'manual_url'    => __( 'https://www.pronamic.eu/support/how-to-connect-icepay-with-wordpress-via-pronamic-pay/', 'pronamic_ideal' ),
 				'dashboard_url' => 'https://portal.icepay.com/',
 				'provider'      => 'icepay',
 			)
@@ -32,6 +33,7 @@ class Integration extends AbstractIntegration {
 		$this->name          = $args['name'];
 		$this->url           = $args['url'];
 		$this->product_url   = $args['product_url'];
+		$this->manual_url    = $args['manual_url'];
 		$this->dashboard_url = $args['dashboard_url'];
 		$this->provider      = $args['provider'];
 		$this->supports      = array(
