@@ -334,6 +334,7 @@ class Gateway extends Core_Gateway {
 							$data = $result->getResultData();
 						}
 
+						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 						if ( \is_object( $data ) && isset( $data->statusCode ) && 'Cancelled' === $data->statusCode ) {
 							$status = PaymentStatus::CANCELLED;
 						}
