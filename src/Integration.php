@@ -11,7 +11,7 @@ use Pronamic\WordPress\Pay\Gateways\Common\AbstractIntegration;
  * Company: Pronamic
  *
  * @author Reüel van der Steege
- * @version 2.0.0
+ * @version 2.0.6
  * @since 1.0.0
  */
 class Integration extends AbstractIntegration {
@@ -23,6 +23,7 @@ class Integration extends AbstractIntegration {
 				'name'          => 'ICEPAY',
 				'url'           => 'https://icepay.com/',
 				'product_url'   => __( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
+				'manual_url'    => __( 'https://www.pronamic.eu/support/how-to-connect-icepay-with-wordpress-via-pronamic-pay/', 'pronamic_ideal' ),
 				'dashboard_url' => 'https://portal.icepay.com/',
 				'provider'      => 'icepay',
 			)
@@ -38,6 +39,8 @@ class Integration extends AbstractIntegration {
 			'webhook',
 			'webhook_log',
 		);
+
+		$this->set_manual_url( $args['manual_url'] );
 
 		// Actions
 		$function = array( __NAMESPACE__ . '\Listener', 'listen' );
