@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
 ## [Unreleased][unreleased]
-- Fixed ICEPAY postback processing.
+-
+
+## [2.0.6] - 2019-12-22
+- Added URL to manual in gateway settings.
+- Fixed processing ICEPAY postback.
+- Updated usage of deprecated `get_cents()` method.
 
 ## [2.0.5] - 2019-10-04
 - Added support for Klarna (Directebank) payment method.
@@ -73,7 +78,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-01-19
 - First release.
 
-[unreleased]: https://github.com/wp-pay-gateways/icepay/compare/2.0.5...HEAD
+[unreleased]: https://github.com/wp-pay-gateways/icepay/compare/2.0.6...HEAD
+[2.0.6]: https://github.com/wp-pay-gateways/icepay/compare/2.0.5...2.0.6
 [2.0.5]: https://github.com/wp-pay-gateways/icepay/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/wp-pay-gateways/icepay/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/wp-pay-gateways/icepay/compare/2.0.2...2.0.3
