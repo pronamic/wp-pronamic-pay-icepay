@@ -12,7 +12,7 @@ use Pronamic\WordPress\Pay\Plugin;
  * Company: Pronamic
  *
  * @author Remco Tolsma
- * @version 2.0.1
+ * @version 2.0.6
  */
 class Listener {
 	/**
