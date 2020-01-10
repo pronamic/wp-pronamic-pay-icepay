@@ -330,7 +330,7 @@ class Gateway extends Core_Gateway {
 						// Check if payment is cancelled.
 						if ( $result instanceof \Icepay_Postback ) {
 							$data = $result->getPostback();
-						} elseif ( $result instanceof \Icepay_Result ) {
+						} else {
 							$data = $result->getResultData();
 						}
 
