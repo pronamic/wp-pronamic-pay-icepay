@@ -2,7 +2,7 @@
 
 namespace Pronamic\WordPress\Pay\Gateways\Icepay;
 
-use Pronamic\WordPress\Pay\Gateways\Common\AbstractIntegration;
+use Pronamic\WordPress\Pay\AbstractGatewayIntegration;
 
 /**
  * Title: ICEPAY integration
@@ -14,7 +14,12 @@ use Pronamic\WordPress\Pay\Gateways\Common\AbstractIntegration;
  * @version 2.0.6
  * @since 1.0.0
  */
-class Integration extends AbstractIntegration {
+class Integration extends AbstractGatewayIntegration {
+	/**
+	 * Construct ICEPAY integration.
+	 *
+	 * @param array $args Arguments.
+	 */
 	public function __construct( $args = array() ) {
 		$args = wp_parse_args(
 			$args,
@@ -22,27 +27,18 @@ class Integration extends AbstractIntegration {
 				'id'            => 'icepay-ideal',
 				'name'          => 'ICEPAY',
 				'url'           => 'https://icepay.com/',
-				'product_url'   => __( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
-				'manual_url'    => __( 'https://www.pronamic.eu/support/how-to-connect-icepay-with-wordpress-via-pronamic-pay/', 'pronamic_ideal' ),
+				'product_url'   => \__( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
+				'manual_url'    => \__( 'https://www.pronamic.eu/support/how-to-connect-icepay-with-wordpress-via-pronamic-pay/', 'pronamic_ideal' ),
 				'dashboard_url' => 'https://portal.icepay.com/',
 				'provider'      => 'icepay',
+				'supports'      => array(
+					'webhook',
+					'webhook_log',
+				),
 			)
 		);
 
 		parent::__construct( $args );
-
-		$this->id            = $args['id'];
-		$this->name          = $args['name'];
-		$this->url           = $args['url'];
-		$this->product_url   = $args['product_url'];
-		$this->dashboard_url = $args['dashboard_url'];
-		$this->provider      = $args['provider'];
-		$this->supports      = array(
-			'webhook',
-			'webhook_log',
-		);
-
-		$this->set_manual_url( $args['manual_url'] );
 
 		// Actions
 		$function = array( __NAMESPACE__ . '\Listener', 'listen' );
