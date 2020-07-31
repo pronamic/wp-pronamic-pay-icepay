@@ -44,7 +44,7 @@ class Listener {
 
 		// Add note.
 		$note = sprintf(
-			/* translators: %s: ICEPAY */
+			/* translators: %s: payment provider name */
 			__( 'Webhook requested by %s.', 'pronamic_ideal' ),
 			__( 'ICEPAY', 'pronamic_ideal' )
 		);
