@@ -33,7 +33,7 @@ use WP_Error;
  */
 class Gateway extends Core_Gateway {
 	/**
-	 * Constructs and intializes an ICEPAY gateway
+	 * Construct and initialize an ICEPAY gateway
 	 *
 	 * @param Config $config Config.
 	 */

@@ -47,7 +47,7 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 - Added support for new Bancontact constant.
 
 ## [1.2.8] - 2016-06-08
-- Simplified the gateay payment start function.
+- Simplified the gateway payment start function.
 
 ## [1.2.7] - 2016-03-22
 - Added product URL.
@@ -70,7 +70,7 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 - Make sure to use language and country values from payment data object.
 
 ## [1.2.1] - 2015-03-03
-- Changed WordPress pay core library requirment from `~1.0.0` to `>=1.0.0`.
+- Changed WordPress pay core library requirement from `~1.0.0` to `>=1.0.0`.
 
 ## [1.2.0] - 2015-02-16
 - Added support for multiple payment methods.
