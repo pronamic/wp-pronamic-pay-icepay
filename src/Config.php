@@ -7,7 +7,7 @@ use Pronamic\WordPress\Pay\Core\GatewayConfig;
 /**
  * Title: ICEPAY config
  * Description:
- * Copyright: 2005-2020 Pronamic
+ * Copyright: 2005-2021 Pronamic
  * Company: Pronamic
  *
  * @author Remco Tolsma
@@ -15,9 +15,24 @@ use Pronamic\WordPress\Pay\Core\GatewayConfig;
  * @since 1.0.0
  */
 class Config extends GatewayConfig {
+	/**
+	 * Merchant ID.
+	 *
+	 * @var string
+	 */
 	public $merchant_id;
 
+	/**
+	 * Secret code.
+	 *
+	 * @var string
+	 */
 	public $secret_code;
 
+	/**
+	 * Order ID.
+	 *
+	 * @var string
+	 */
 	public $order_id;
 }

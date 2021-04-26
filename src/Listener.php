@@ -8,7 +8,7 @@ use Pronamic\WordPress\Pay\Plugin;
 /**
  * Title: ICEPAY listener
  * Description:
- * Copyright: 2005-2020 Pronamic
+ * Copyright: 2005-2021 Pronamic
  * Company: Pronamic
  *
  * @author Remco Tolsma
@@ -17,6 +17,8 @@ use Pronamic\WordPress\Pay\Plugin;
 class Listener {
 	/**
 	 * Listen.
+	 *
+	 * @return void
 	 */
 	public static function listen() {
 		$variable_names = array(
@@ -44,7 +46,7 @@ class Listener {
 
 		// Add note.
 		$note = sprintf(
-			/* translators: %s: ICEPAY */
+			/* translators: %s: payment provider name */
 			__( 'Webhook requested by %s.', 'pronamic_ideal' ),
 			__( 'ICEPAY', 'pronamic_ideal' )
 		);

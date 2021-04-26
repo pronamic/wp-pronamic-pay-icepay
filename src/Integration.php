@@ -7,7 +7,7 @@ use Pronamic\WordPress\Pay\AbstractGatewayIntegration;
 /**
  * Title: ICEPAY integration
  * Description:
- * Copyright: 2005-2020 Pronamic
+ * Copyright: 2005-2021 Pronamic
  * Company: Pronamic
  *
  * @author Reüel van der Steege
@@ -48,6 +48,11 @@ class Integration extends AbstractGatewayIntegration {
 		}
 	}
 
+	/**
+	 * Get settings fields.
+	 *
+	 * @return array<int, array<string, callable|int|string|bool|array<int|string,int|string>>>
+	 */
 	public function get_settings_fields() {
 		$fields = array();
 
@@ -97,7 +102,7 @@ class Integration extends AbstractGatewayIntegration {
 					'{payment_id}'
 				),
 				sprintf(
-					/* translators: %s: <code>{payment_id}</code> */
+					/* translators: %s: default code */
 					__( 'Default: <code>%s</code>', 'pronamic_ideal' ),
 					'{payment_id}'
 				)
