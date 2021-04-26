@@ -17,6 +17,8 @@ use Pronamic\WordPress\Pay\Plugin;
 class Listener {
 	/**
 	 * Listen.
+	 *
+	 * @return void
 	 */
 	public static function listen() {
 		$variable_names = array(
