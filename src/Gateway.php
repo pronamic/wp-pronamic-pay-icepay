@@ -224,7 +224,7 @@ class Gateway extends Core_Gateway {
 			 */
 			$icepay_method = null;
 
-			switch ( $payment->get_method() ) {
+			switch ( $payment->get_payment_method() ) {
 				case PaymentMethods::CREDIT_CARD:
 					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 					$icepay_method = new Icepay_Paymentmethod_Creditcard();
