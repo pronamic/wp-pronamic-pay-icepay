@@ -188,14 +188,24 @@ class Gateway extends Core_Gateway {
 			// Locale, country and language.
 			$locale   = get_locale();
 			$language = substr( $locale, 0, 2 );
+			$country  = strtoupper( substr( $locale, 3, 2 ) );
 
-			if ( null !== $payment->get_customer() ) {
-				$locale = $payment->get_customer()->get_locale();
+			$customer = $payment->get_customer();
 
-				$language = strtoupper( $payment->get_customer()->get_language() );
+			if ( null !== $customer ) {
+				$locale = $customer->get_locale();
+
+				if ( null !== $locale ) {
+					$locale_parts = \explode( '_', $locale );
+
+					// Locale not always contains `_`, e.g. "Nederlands" in Firefox.
+					if ( count( $locale_parts ) > 1 ) {
+						$country = $locale_parts[1];
+					}
+				}
+
+				$language = strtoupper( (string) $customer->get_language() );
 			}
-
-			$country = strtoupper( substr( $locale, 3, 2 ) );
 
 			// Set country from billing address.
 			$billing_address = $payment->get_billing_address();
