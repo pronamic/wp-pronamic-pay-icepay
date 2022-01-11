@@ -24,7 +24,7 @@ use WP_Error;
 /**
  * Title: ICEPAY gateway
  * Description:
- * Copyright: 2005-2021 Pronamic
+ * Copyright: 2005-2022 Pronamic
  * Company: Pronamic
  *
  * @author Remco Tolsma
@@ -188,18 +188,30 @@ class Gateway extends Core_Gateway {
 			// Locale, country and language.
 			$locale   = get_locale();
 			$language = substr( $locale, 0, 2 );
+			$country  = strtoupper( substr( $locale, 3, 2 ) );
 
-			if ( null !== $payment->get_customer() ) {
-				$locale = $payment->get_customer()->get_locale();
+			$customer = $payment->get_customer();
 
-				$language = strtoupper( $payment->get_customer()->get_language() );
+			if ( null !== $customer ) {
+				$locale = $customer->get_locale();
+
+				if ( null !== $locale ) {
+					$locale_parts = \explode( '_', $locale );
+
+					// Locale not always contains `_`, e.g. "Nederlands" in Firefox.
+					if ( count( $locale_parts ) > 1 ) {
+						$country = $locale_parts[1];
+					}
+				}
+
+				$language = strtoupper( (string) $customer->get_language() );
 			}
 
-			$country = strtoupper( substr( $locale, 3, 2 ) );
-
 			// Set country from billing address.
-			if ( null !== $payment->get_billing_address() ) {
-				$country_code = $payment->get_billing_address()->get_country_code();
+			$billing_address = $payment->get_billing_address();
+
+			if ( null !== $billing_address ) {
+				$country_code = $billing_address->get_country_code();
 
 				if ( ! empty( $country_code ) ) {
 					$country = $country_code;
@@ -209,13 +221,13 @@ class Gateway extends Core_Gateway {
 			// Payment object.
 			$payment_object = new Icepay_PaymentObject();
 			$payment_object
-				->setAmount( $payment->get_total_amount()->get_minor_units() )
+				->setAmount( $payment->get_total_amount()->get_minor_units()->to_int() )
 				->setCountry( $country )
 				->setLanguage( $language )
 				->setReference( $payment->get_order_id() )
 				->setDescription( $payment->get_description() )
 				->setCurrency( $payment->get_total_amount()->get_currency()->get_alphabetic_code() )
-				->setIssuer( $payment->get_issuer() )
+				->setIssuer( $payment->get_meta( 'issuer' ) )
 				->setOrderID( $payment->format_string( $this->config->order_id ) );
 
 			/*
@@ -224,7 +236,7 @@ class Gateway extends Core_Gateway {
 			 */
 			$icepay_method = null;
 
-			switch ( $payment->get_method() ) {
+			switch ( $payment->get_payment_method() ) {
 				case PaymentMethods::CREDIT_CARD:
 					// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 					$icepay_method = new Icepay_Paymentmethod_Creditcard();
