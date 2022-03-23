@@ -33,12 +33,21 @@ use WP_Error;
  */
 class Gateway extends Core_Gateway {
 	/**
+	 * Config
+	 *
+	 * @var Config
+	 */
+	protected $config;
+
+	/**
 	 * Construct and initialize an ICEPAY gateway
 	 *
 	 * @param Config $config Config.
 	 */
 	public function __construct( Config $config ) {
 		parent::__construct( $config );
+
+		$this->config = $config;
 
 		// Default properties for this gateway.
 		$this->set_method( self::METHOD_HTTP_REDIRECT );
