@@ -17,6 +17,7 @@ use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethod;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
+use Pronamic\WordPress\Pay\Core\SelectField;
 use Pronamic\WordPress\Pay\Core\Server;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
@@ -56,9 +57,31 @@ class Gateway extends Core_Gateway {
 		// Supported features.
 		$this->supports = array();
 
+		// Payment method iDEAL.
+		$ideal_payment_method = new PaymentMethod( PaymentMethods::IDEAL );
+
+		$ideal_issuer_field = new SelectField( 'ideal-issuer' );
+
+		$ideal_issuer_field->set_options_callback( function() {
+			return $this->get_issuers();
+		} );
+
+		$ideal_payment_method->add_field( $ideal_issuer_field );
+
+		// Payment method credit card.
+		$credit_card_payment_method = new PaymentMethod( PaymentMethods::CREDIT_CARD );
+
+		$credit_card_issuer_field = new SelectField( 'credit-card-issuer' );
+
+		$credit_card_issuer_field->set_options_callback( function() {
+			return $this->get_credit_card_issuers();
+		} );
+
+		$credit_card_payment_method->add_field( $credit_card_issuer_field );
+
 		// Payment methods.
-		$this->register_payment_method( new PaymentMethod( PaymentMethods::IDEAL ) );
-		$this->register_payment_method( new PaymentMethod( PaymentMethods::CREDIT_CARD ) );
+		$this->register_payment_method( $ideal_payment_method );
+		$this->register_payment_method( $credit_card_payment_method );
 		$this->register_payment_method( new PaymentMethod( PaymentMethods::DIRECT_DEBIT ) );
 		$this->register_payment_method( new PaymentMethod( PaymentMethods::BANCONTACT ) );
 		$this->register_payment_method( new PaymentMethod( PaymentMethods::SOFORT ) );
