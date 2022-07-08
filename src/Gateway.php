@@ -15,6 +15,7 @@ use Icepay_Postback;
 use Icepay_Result;
 use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
+use Pronamic\WordPress\Pay\Core\PaymentMethod;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Core\Server;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
@@ -54,6 +55,13 @@ class Gateway extends Core_Gateway {
 
 		// Supported features.
 		$this->supports = array();
+
+		// Payment methods.
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::IDEAL ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::CREDIT_CARD ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::DIRECT_DEBIT ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::BANCONTACT ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::SOFORT ) );
 	}
 
 	/**
@@ -158,21 +166,6 @@ class Gateway extends Core_Gateway {
 		}
 
 		return $groups;
-	}
-
-	/**
-	 * Get supported payment methods
-	 *
-	 * @see Core_Gateway::get_supported_payment_methods()
-	 */
-	public function get_supported_payment_methods() {
-		return array(
-			PaymentMethods::IDEAL,
-			PaymentMethods::CREDIT_CARD,
-			PaymentMethods::DIRECT_DEBIT,
-			PaymentMethods::BANCONTACT,
-			PaymentMethods::SOFORT,
-		);
 	}
 
 	/**
