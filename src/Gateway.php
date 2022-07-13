@@ -103,7 +103,7 @@ class Gateway extends Core_Gateway {
 	 *
 	 * @return array
 	 */
-	public function get_ideal_issuers() {
+	private function get_ideal_issuers() {
 		$groups  = array();
 		$issuers = array();
 
