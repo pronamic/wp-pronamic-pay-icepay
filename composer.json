@@ -30,7 +30,7 @@
 	},
 	"require": {
 		"php": ">=5.6.20",
-		"icepay/icepay": "^2.5.0",
+		"pronamic/icepay-soap-api": "^2.5",
 		"wp-pay/core": "^4.0"
 	},
 	"require-dev": {
@@ -55,5 +55,13 @@
 		"post-install-cmd": "echo 'Optionally run: composer bin all install'",
 		"post-update-cmd": "echo 'Optionally run: composer bin all update'",
 		"psalm": "vendor/bin/psalm"
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"roots/wordpress-core-installer": true,
+			"bamarni/composer-bin-plugin": true
+		}
 	}
 }
