@@ -7,6 +7,9 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.1.1] - 2022-08-15
+- Switched to new ICEPAY repository from Pronamic.
+
 ## [4.1.0] - 2022-04-11
 - Remove gateway error usage, exception should be handled downstream.
 
@@ -98,7 +101,8 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## 1.0.0 - 2015-01-19
 - First release.
 
-[unreleased]: https://github.com/wp-pay-gateways/icepay/compare/4.1.0...HEAD
+[unreleased]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/4.1.1...HEAD
+[4.1.1]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/4.1.0...4.1.1
 [4.1.0]: https://github.com/wp-pay-gateways/icepay/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/wp-pay-gateways/icepay/compare/3.0.0...4.0.0
 [3.0.0]: https://github.com/wp-pay-gateways/icepay/compare/2.1.0...3.0.0
