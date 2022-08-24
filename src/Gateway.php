@@ -15,8 +15,14 @@ use Icepay_Postback;
 use Icepay_Result;
 use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
+use Pronamic\WordPress\Pay\Core\PaymentMethod;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
 use Pronamic\WordPress\Pay\Core\Server;
+use Pronamic\WordPress\Pay\Fields\CachedCallbackOptions;
+use Pronamic\WordPress\Pay\Fields\IDealIssuerSelectField;
+use Pronamic\WordPress\Pay\Fields\SelectField;
+use Pronamic\WordPress\Pay\Fields\SelectFieldOption;
+use Pronamic\WordPress\Pay\Fields\SelectFieldOptionGroup;
 use Pronamic\WordPress\Pay\Payments\PaymentStatus;
 use Pronamic\WordPress\Pay\Payments\Payment;
 use WP_Error;
@@ -54,70 +60,85 @@ class Gateway extends Core_Gateway {
 
 		// Supported features.
 		$this->supports = array();
+
+		// Payment method iDEAL.
+		$ideal_payment_method = new PaymentMethod( PaymentMethods::IDEAL );
+
+		$ideal_issuer_field = new IDealIssuerSelectField( 'ideal-issuer' );
+
+		$ideal_issuer_field->set_options( new CachedCallbackOptions(
+			function() {
+				return $this->get_ideal_issuers();
+			},
+			'pronamic_pay_ideal_issuers_' . \md5( \wp_json_encode( $config ) )
+		) );
+
+		$ideal_payment_method->add_field( $ideal_issuer_field );
+
+		// Payment method credit card.
+		$credit_card_payment_method = new PaymentMethod( PaymentMethods::CREDIT_CARD );
+
+		$credit_card_issuer_field = new SelectField( 'credit-card-issuer' );
+
+		$credit_card_issuer_field->set_options( new CachedCallbackOptions(
+			function() {
+	 			return $this->get_credit_card_issuers();
+			},
+			'pronamic_pay_credit_card_issuers_' . \md5( \wp_json_encode( $config ) )
+		) );
+
+		$credit_card_payment_method->add_field( $credit_card_issuer_field );
+
+		// Payment methods.
+		$this->register_payment_method( $ideal_payment_method );
+		$this->register_payment_method( $credit_card_payment_method );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::DIRECT_DEBIT ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::BANCONTACT ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::SOFORT ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::VOID ) );
 	}
 
 	/**
-	 * Filter iDEAL
+	 * Get iDEAL issuers.
 	 *
-	 * @param array $method Payment method.
-	 *
-	 * @return bool
+	 * @return iterable<SelectFieldOption|SelectFieldOptionGroup>
 	 */
-	private function filter_ideal( $method ) {
-		return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
+	private function get_ideal_issuers() {
+		$methods = Icepay_Api_Webservice::getInstance()
+			->paymentmethodService()
+			->setMerchantID( $this->config->merchant_id )
+			->setSecretCode( $this->config->secret_code )
+			->retrieveAllPaymentmethods()
+			->asArray();
+
+		$ideal_methods = array_filter( $methods, function( $method ) {
+			return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
+		} );
+
+		if ( empty( $ideal_methods ) ) {
+			return [];
+		}
+
+		$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
+			->loadFromArray( $methods )
+			->selectPaymentMethodByCode( 'IDEAL' )
+			->getIssuers();
+
+		$options = [];
+
+		foreach ( $issuers as $issuer ) {
+			$options[] = new SelectFieldOption( $issuer['IssuerKeyword'], $issuer['Description'] );
+		}
+
+		return $options;
 	}
 
 	/**
-	 * Get issuers
+	 * Get credit card issuers.
 	 *
-	 * @see Core_Gateway::get_issuers()
+	 * @return iterable<SelectFieldOption|SelectFieldOptionGroup>
 	 */
-	public function get_issuers() {
-		$groups  = array();
-		$issuers = array();
-
-		try {
-			$methods = Icepay_Api_Webservice::getInstance()
-						->paymentmethodService()
-						->setMerchantID( $this->config->merchant_id )
-						->setSecretCode( $this->config->secret_code )
-						->retrieveAllPaymentmethods()
-						->asArray();
-		} catch ( Exception $e ) {
-			return $groups;
-		}
-
-		$ideal_methods = array_filter( $methods, array( $this, 'filter_ideal' ) );
-
-		if ( ! empty( $ideal_methods ) ) {
-			$issuers = Icepay_Api_Webservice::getInstance()->singleMethod()
-						->loadFromArray( $methods )
-						->selectPaymentMethodByCode( 'IDEAL' )
-						->getIssuers();
-		}
-
-		if ( $issuers ) {
-			$options = array();
-
-			foreach ( $issuers as $issuer ) {
-				$options[ $issuer['IssuerKeyword'] ] = $issuer['Description'];
-			}
-
-			$groups[] = array(
-				'options' => $options,
-			);
-		}
-
-		return $groups;
-	}
-
-	/**
-	 * Get issuers
-	 *
-	 * @see Core_Gateway::get_issuers()
-	 */
-	public function get_credit_card_issuers() {
-		$groups  = array();
+	private function get_credit_card_issuers() {
 		$issuers = array();
 
 		$method = new Icepay_Paymentmethod_Creditcard();
@@ -126,53 +147,32 @@ class Gateway extends Core_Gateway {
 			$issuers = $method->_issuer;
 		}
 
-		if ( $issuers ) {
-			$options = array();
+		$options = array();
 
-			foreach ( $issuers as $issuer ) {
-				switch ( $issuer ) {
-					case 'AMEX':
-						$name = _x( 'AMEX', 'Payment method name', 'pronamic_ideal' );
+		foreach ( $issuers as $issuer ) {
+			switch ( $issuer ) {
+				case 'AMEX':
+					$name = _x( 'AMEX', 'Payment method name', 'pronamic_ideal' );
 
-						break;
-					case 'MASTER':
-						$name = _x( 'MASTER', 'Payment method name', 'pronamic_ideal' );
+					break;
+				case 'MASTER':
+					$name = _x( 'MASTER', 'Payment method name', 'pronamic_ideal' );
 
-						break;
-					case 'VISA':
-						$name = _x( 'VISA', 'Payment method name', 'pronamic_ideal' );
+					break;
+				case 'VISA':
+					$name = _x( 'VISA', 'Payment method name', 'pronamic_ideal' );
 
-						break;
-					default:
-						$name = $issuer;
+					break;
+				default:
+					$name = $issuer;
 
-						break;
-				}
-
-				$options[ $issuer ] = $name;
+					break;
 			}
 
-			$groups[] = array(
-				'options' => $options,
-			);
+			$options[] = new SelectFieldOption( $issuer, $name );
 		}
 
-		return $groups;
-	}
-
-	/**
-	 * Get supported payment methods
-	 *
-	 * @see Core_Gateway::get_supported_payment_methods()
-	 */
-	public function get_supported_payment_methods() {
-		return array(
-			PaymentMethods::IDEAL,
-			PaymentMethods::CREDIT_CARD,
-			PaymentMethods::DIRECT_DEBIT,
-			PaymentMethods::BANCONTACT,
-			PaymentMethods::SOFORT,
-		);
+		return $options;
 	}
 
 	/**
