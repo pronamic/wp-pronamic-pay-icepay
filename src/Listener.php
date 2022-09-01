@@ -21,7 +21,7 @@ class Listener {
 	 * @return void
 	 */
 	public static function listen() {
-		$variable_names = array(
+		$variable_names = [
 			'Status',
 			'StatusCode',
 			'Merchant',
@@ -30,7 +30,7 @@ class Listener {
 			'Reference',
 			'TransactionID',
 			'Checksum',
-		);
+		];
 
 		if ( ! Util::input_has_vars( INPUT_POST, $variable_names ) ) {
 			return;

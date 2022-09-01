@@ -59,19 +59,21 @@ class Gateway extends Core_Gateway {
 		$this->set_method( self::METHOD_HTTP_REDIRECT );
 
 		// Supported features.
-		$this->supports = array();
+		$this->supports = [];
 
 		// Payment method iDEAL.
 		$ideal_payment_method = new PaymentMethod( PaymentMethods::IDEAL );
 
 		$ideal_issuer_field = new IDealIssuerSelectField( 'ideal-issuer' );
 
-		$ideal_issuer_field->set_options( new CachedCallbackOptions(
-			function() {
-				return $this->get_ideal_issuers();
-			},
-			'pronamic_pay_ideal_issuers_' . \md5( \wp_json_encode( $config ) )
-		) );
+		$ideal_issuer_field->set_options(
+			new CachedCallbackOptions(
+				function() {
+					return $this->get_ideal_issuers();
+				},
+				'pronamic_pay_ideal_issuers_' . \md5( \wp_json_encode( $config ) )
+			) 
+		);
 
 		$ideal_payment_method->add_field( $ideal_issuer_field );
 
@@ -80,12 +82,14 @@ class Gateway extends Core_Gateway {
 
 		$credit_card_issuer_field = new SelectField( 'credit-card-issuer' );
 
-		$credit_card_issuer_field->set_options( new CachedCallbackOptions(
-			function() {
-	 			return $this->get_credit_card_issuers();
-			},
-			'pronamic_pay_credit_card_issuers_' . \md5( \wp_json_encode( $config ) )
-		) );
+		$credit_card_issuer_field->set_options(
+			new CachedCallbackOptions(
+				function() {
+					return $this->get_credit_card_issuers();
+				},
+				'pronamic_pay_credit_card_issuers_' . \md5( \wp_json_encode( $config ) )
+			) 
+		);
 
 		$credit_card_payment_method->add_field( $credit_card_issuer_field );
 
@@ -110,9 +114,12 @@ class Gateway extends Core_Gateway {
 			->retrieveAllPaymentmethods()
 			->asArray();
 
-		$ideal_methods = array_filter( $methods, function( $method ) {
-			return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
-		} );
+		$ideal_methods = array_filter(
+			$methods,
+			function( $method ) {
+				return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
+			} 
+		);
 
 		if ( empty( $ideal_methods ) ) {
 			return [];
@@ -138,7 +145,7 @@ class Gateway extends Core_Gateway {
 	 * @return iterable<SelectFieldOption|SelectFieldOptionGroup>
 	 */
 	private function get_credit_card_issuers() {
-		$issuers = array();
+		$issuers = [];
 
 		$method = new Icepay_Paymentmethod_Creditcard();
 
@@ -146,7 +153,7 @@ class Gateway extends Core_Gateway {
 			$issuers = $method->_issuer;
 		}
 
-		$options = array();
+		$options = [];
 
 		foreach ( $issuers as $issuer ) {
 			switch ( $issuer ) {
