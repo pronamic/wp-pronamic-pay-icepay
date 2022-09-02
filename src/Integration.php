@@ -63,7 +63,9 @@ class Integration extends AbstractGatewayIntegration {
 			'meta_key' => '_pronamic_gateway_icepay_merchant_id',
 			'title'    => _x( 'Merchant ID', 'icepay', 'pronamic_ideal' ),
 			'type'     => 'text',
+			'classes'  => [ 'code' ],
 			'tooltip'  => __( 'Merchant ID as mentioned in the ICEPAY dashboard at the "My websites" page.', 'pronamic_ideal' ),
+			'required' => true,
 		];
 
 		// Secret Code
@@ -75,6 +77,7 @@ class Integration extends AbstractGatewayIntegration {
 			'type'     => 'text',
 			'classes'  => [ 'regular-text', 'code' ],
 			'tooltip'  => __( 'Secret Code as mentioned in the ICEPAY dashboard at the "My websites" page.', 'pronamic_ideal' ),
+			'required' => true,
 		];
 
 		// Purchase ID
