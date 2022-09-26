@@ -20,10 +20,10 @@ class Integration extends AbstractGatewayIntegration {
 	 *
 	 * @param array $args Arguments.
 	 */
-	public function __construct( $args = array() ) {
+	public function __construct( $args = [] ) {
 		$args = wp_parse_args(
 			$args,
-			array(
+			[
 				'id'            => 'icepay-ideal',
 				'name'          => 'ICEPAY',
 				'url'           => 'https://icepay.com/',
@@ -31,17 +31,17 @@ class Integration extends AbstractGatewayIntegration {
 				'manual_url'    => \__( 'https://www.pronamic.eu/support/how-to-connect-icepay-with-wordpress-via-pronamic-pay/', 'pronamic_ideal' ),
 				'dashboard_url' => 'https://portal.icepay.com/',
 				'provider'      => 'icepay',
-				'supports'      => array(
+				'supports'      => [
 					'webhook',
 					'webhook_log',
-				),
-			)
+				],
+			]
 		);
 
 		parent::__construct( $args );
 
 		// Actions
-		$function = array( __NAMESPACE__ . '\Listener', 'listen' );
+		$function = [ __NAMESPACE__ . '\Listener', 'listen' ];
 
 		if ( ! has_action( 'wp_loaded', $function ) ) {
 			add_action( 'wp_loaded', $function );
@@ -54,40 +54,43 @@ class Integration extends AbstractGatewayIntegration {
 	 * @return array<int, array<string, callable|int|string|bool|array<int|string,int|string>>>
 	 */
 	public function get_settings_fields() {
-		$fields = array();
+		$fields = [];
 
 		// Merchant ID
-		$fields[] = array(
+		$fields[] = [
 			'section'  => 'general',
 			'filter'   => FILTER_SANITIZE_STRING,
 			'meta_key' => '_pronamic_gateway_icepay_merchant_id',
 			'title'    => _x( 'Merchant ID', 'icepay', 'pronamic_ideal' ),
 			'type'     => 'text',
+			'classes'  => [ 'code' ],
 			'tooltip'  => __( 'Merchant ID as mentioned in the ICEPAY dashboard at the "My websites" page.', 'pronamic_ideal' ),
-		);
+			'required' => true,
+		];
 
 		// Secret Code
-		$fields[] = array(
+		$fields[] = [
 			'section'  => 'general',
 			'filter'   => FILTER_SANITIZE_STRING,
 			'meta_key' => '_pronamic_gateway_icepay_secret_code',
 			'title'    => _x( 'Secret Code', 'icepay', 'pronamic_ideal' ),
 			'type'     => 'text',
-			'classes'  => array( 'regular-text', 'code' ),
+			'classes'  => [ 'regular-text', 'code' ],
 			'tooltip'  => __( 'Secret Code as mentioned in the ICEPAY dashboard at the "My websites" page.', 'pronamic_ideal' ),
-		);
+			'required' => true,
+		];
 
 		// Purchase ID
-		$fields[] = array(
+		$fields[] = [
 			'section'     => 'advanced',
-			'filter'      => array(
+			'filter'      => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_NO_ENCODE_QUOTES,
-			),
+			],
 			'meta_key'    => '_pronamic_gateway_icepay_order_id',
 			'title'       => __( 'Order ID', 'pronamic_ideal' ),
 			'type'        => 'text',
-			'classes'     => array( 'regular-text', 'code' ),
+			'classes'     => [ 'regular-text', 'code' ],
 			'tooltip'     => sprintf(
 				/* translators: %s: <code>OrderID</code> */
 				__( 'The Icepay %s parameter.', 'pronamic_ideal' ),
@@ -107,37 +110,37 @@ class Integration extends AbstractGatewayIntegration {
 					'{payment_id}'
 				)
 			),
-		);
+		];
 
 		// Thank you page URL
-		$fields[] = array(
+		$fields[] = [
 			'section'  => 'feedback',
 			'title'    => __( 'Thank you page URL', 'pronamic_ideal' ),
 			'type'     => 'text',
-			'classes'  => array( 'regular-text', 'code' ),
+			'classes'  => [ 'regular-text', 'code' ],
 			'value'    => home_url( '/' ),
 			'readonly' => true,
-		);
+		];
 
 		// Error page URL
-		$fields[] = array(
+		$fields[] = [
 			'section'  => 'feedback',
 			'title'    => __( 'Error page URL', 'pronamic_ideal' ),
 			'type'     => 'text',
-			'classes'  => array( 'regular-text', 'code' ),
+			'classes'  => [ 'regular-text', 'code' ],
 			'value'    => home_url( '/' ),
 			'readonly' => true,
-		);
+		];
 
 		// Postback URL
-		$fields[] = array(
+		$fields[] = [
 			'section'  => 'feedback',
 			'title'    => __( 'Postback URL', 'pronamic_ideal' ),
 			'type'     => 'text',
-			'classes'  => array( 'regular-text', 'code' ),
+			'classes'  => [ 'regular-text', 'code' ],
 			'value'    => home_url( '/' ),
 			'readonly' => true,
-		);
+		];
 
 		return $fields;
 	}

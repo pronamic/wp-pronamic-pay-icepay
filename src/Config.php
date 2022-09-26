@@ -2,6 +2,7 @@
 
 namespace Pronamic\WordPress\Pay\Gateways\Icepay;
 
+use JsonSerializable;
 use Pronamic\WordPress\Pay\Core\GatewayConfig;
 
 /**
@@ -14,7 +15,7 @@ use Pronamic\WordPress\Pay\Core\GatewayConfig;
  * @version 1.3.0
  * @since 1.0.0
  */
-class Config extends GatewayConfig {
+class Config extends GatewayConfig implements JsonSerializable {
 	/**
 	 * Merchant ID.
 	 *
@@ -35,4 +36,16 @@ class Config extends GatewayConfig {
 	 * @var string
 	 */
 	public $order_id;
+
+	/**
+	 * JSON serialize.
+	 *
+	 * @return object
+	 */
+	public function jsonSerialize() {
+		return (object) [
+			'merchant_id' => $this->merchant_id,
+			'secret_code' => $this->secret_code,
+		];
+	}
 }
