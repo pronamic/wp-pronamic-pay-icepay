@@ -28,7 +28,7 @@ class Integration extends AbstractGatewayIntegration {
 				'name'          => 'ICEPAY',
 				'url'           => 'https://icepay.com/',
 				'product_url'   => \__( 'https://icepay.com/nl/en/pricing-and-accounts/', 'pronamic_ideal' ),
-				'manual_url'    => \__( 'https://www.pronamic.eu/support/how-to-connect-icepay-with-wordpress-via-pronamic-pay/', 'pronamic_ideal' ),
+				'manual_url'    => \__( 'https://www.pronamicpay.com/en/manuals/how-to-connect-icepay-to-wordpress-with-pronamic-pay/', 'pronamic_ideal' ),
 				'dashboard_url' => 'https://portal.icepay.com/',
 				'provider'      => 'icepay',
 				'supports'      => [
