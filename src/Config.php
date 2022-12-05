@@ -42,7 +42,7 @@ class Config extends GatewayConfig implements JsonSerializable {
 	 *
 	 * @return object
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): object {
 		return (object) [
 			'merchant_id' => $this->merchant_id,
 			'secret_code' => $this->secret_code,
