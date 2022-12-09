@@ -21,7 +21,8 @@ class Listener {
 	 * @return void
 	 */
 	public static function listen() {
-		$variable_names = [
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		$parameters = [
 			'Status',
 			'StatusCode',
 			'Merchant',
@@ -32,13 +33,17 @@ class Listener {
 			'Checksum',
 		];
 
-		if ( ! Util::input_has_vars( INPUT_POST, $variable_names ) ) {
-			return;
+		foreach ( $parameters as $parameter ) {
+			if ( ! \array_key_exists( $parameter, $_POST ) ) {
+				return;
+			}
 		}
 
-		$reference = filter_input( INPUT_POST, 'OrderID', FILTER_SANITIZE_STRING );
+		$payment_id = array_key_exists( 'OrderID', $_POST ) ? \sanitize_text_field( \wp_unslash( $_POST['OrderID'] ) ) : null;
 
-		$payment = get_pronamic_payment( $reference );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+		$payment = get_pronamic_payment( $payment_id );
 
 		if ( null === $payment ) {
 			return;

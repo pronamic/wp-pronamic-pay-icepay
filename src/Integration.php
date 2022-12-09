@@ -59,7 +59,6 @@ class Integration extends AbstractGatewayIntegration {
 		// Merchant ID
 		$fields[] = [
 			'section'  => 'general',
-			'filter'   => FILTER_SANITIZE_STRING,
 			'meta_key' => '_pronamic_gateway_icepay_merchant_id',
 			'title'    => _x( 'Merchant ID', 'icepay', 'pronamic_ideal' ),
 			'type'     => 'text',
@@ -71,7 +70,6 @@ class Integration extends AbstractGatewayIntegration {
 		// Secret Code
 		$fields[] = [
 			'section'  => 'general',
-			'filter'   => FILTER_SANITIZE_STRING,
 			'meta_key' => '_pronamic_gateway_icepay_secret_code',
 			'title'    => _x( 'Secret Code', 'icepay', 'pronamic_ideal' ),
 			'type'     => 'text',
@@ -83,10 +81,10 @@ class Integration extends AbstractGatewayIntegration {
 		// Purchase ID
 		$fields[] = [
 			'section'     => 'advanced',
-			'filter'      => [
-				'filter' => FILTER_SANITIZE_STRING,
-				'flags'  => FILTER_FLAG_NO_ENCODE_QUOTES,
-			],
+			/**
+			 * Filter ICEPAY order ID unsafe raw to allow double quotes.
+			 */
+			'filter'      => \FILTER_UNSAFE_RAW,
 			'meta_key'    => '_pronamic_gateway_icepay_order_id',
 			'title'       => __( 'Order ID', 'pronamic_ideal' ),
 			'type'        => 'text',
