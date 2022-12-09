@@ -333,38 +333,38 @@ class Gateway extends Core_Gateway {
 			->setSecretCode( $this->config->secret_code );
 
 		// Determine if the result can be validated.
-		if ( $result->validate() ) {
-			// What was the status response.
-			switch ( $result->getStatus() ) {
-				case Icepay_StatusCode::SUCCESS:
-					$payment->set_status( PaymentStatus::SUCCESS );
+		if ( ! $result->validate() ) {
+			return;
+		}
 
-					break;
-				case Icepay_StatusCode::OPEN:
-					$payment->set_status( PaymentStatus::OPEN );
+		// What was the status response.
+		switch ( $result->getStatus() ) {
+			case Icepay_StatusCode::SUCCESS:
+				$payment->set_status( PaymentStatus::SUCCESS );
 
-					break;
-				case Icepay_StatusCode::ERROR:
-					$status = PaymentStatus::FAILURE;
+				break;
+			case Icepay_StatusCode::OPEN:
+				$payment->set_status( PaymentStatus::OPEN );
 
-					$data = null;
+				break;
+			case Icepay_StatusCode::ERROR:
+				$status = PaymentStatus::FAILURE;
 
-					// Check if payment is cancelled.
-					if ( $result instanceof \Icepay_Postback ) {
-						$data = $result->getPostback();
-					} else {
-						$data = $result->getResultData();
-					}
+				// Check if payment is cancelled.
+				if ( $result instanceof \Icepay_Postback ) {
+					$data = $result->getPostback();
+				} else {
+					$data = $result->getResultData();
+				}
 
-					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-					if ( \is_object( $data ) && isset( $data->statusCode ) && 'Cancelled' === $data->statusCode ) {
-						$status = PaymentStatus::CANCELLED;
-					}
+				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				if ( \is_object( $data ) && isset( $data->statusCode ) && 'Cancelled' === $data->statusCode ) {
+					$status = PaymentStatus::CANCELLED;
+				}
 
-					$payment->set_status( $status );
+				$payment->set_status( $status );
 
-					break;
-			}
+				break;
 		}
 	}
 }
