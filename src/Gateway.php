@@ -72,7 +72,7 @@ class Gateway extends Core_Gateway {
 					return $this->get_ideal_issuers();
 				},
 				'pronamic_pay_ideal_issuers_' . \md5( \wp_json_encode( $config ) )
-			) 
+			)
 		);
 
 		$ideal_payment_method->add_field( $ideal_issuer_field );
@@ -88,7 +88,7 @@ class Gateway extends Core_Gateway {
 					return $this->get_credit_card_issuers();
 				},
 				'pronamic_pay_credit_card_issuers_' . \md5( \wp_json_encode( $config ) )
-			) 
+			)
 		);
 
 		$credit_card_payment_method->add_field( $credit_card_issuer_field );
@@ -118,7 +118,7 @@ class Gateway extends Core_Gateway {
 			$methods,
 			function( $method ) {
 				return is_array( $method ) && isset( $method['PaymentMethodCode'] ) && 'IDEAL' === $method['PaymentMethodCode'];
-			} 
+			}
 		);
 
 		if ( empty( $ideal_methods ) ) {
