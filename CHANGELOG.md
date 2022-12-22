@@ -8,9 +8,11 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 -
 
 ## [4.3.0] - 2022-12-22
+
+### Composer
 - Changed `php` from `>=5.6.20` to `>=8.0`.
 - Changed `wp-pay/core` from `^4.0` to `v4.6.0`.
-	Release notes: https://github.com/pronamic/wp-pay-corereleases/tag/v4.2.0
+	Release notes: https://github.com/pronamic/wp-pay-core/releases/tag/v4.2.0
 
 Full set of changes: [`4.2.0...4.3.0`][4.3.0]
 
