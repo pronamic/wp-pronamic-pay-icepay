@@ -5,7 +5,7 @@ namespace Pronamic\WordPress\Pay\Gateways\Icepay;
 /**
  * Title: ICEPAY - Integration test
  * Description:
- * Copyright: 2005-2022 Pronamic
+ * Copyright: 2005-2023 Pronamic
  * Company: Pronamic
  *
  * @author Remco Tolsma
