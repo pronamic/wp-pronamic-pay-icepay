@@ -29,7 +29,7 @@
 		}
 	},
 	"require": {
-		"php": ">=8.0",
+		"php": ">=7.4",
 		"pronamic/icepay-soap-api": "^2.5",
 		"wp-pay/core": "^4.6"
 	},
