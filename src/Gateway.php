@@ -260,45 +260,45 @@ class Gateway extends Core_Gateway {
 
 		switch ( $payment->get_payment_method() ) {
 			case PaymentMethods::BANK_TRANSFER:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/wire.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/wire.php
 				$icepay_method = new Icepay_Paymentmethod_Wire();
 
 				break;
 			case PaymentMethods::CREDIT_CARD:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/creditcard.php
 				$icepay_method = new Icepay_Paymentmethod_Creditcard();
 
 				$payment_object->setIssuer( $payment->get_meta( 'credit_card_issuer' ) );
 
 				break;
 			case PaymentMethods::DIRECT_DEBIT:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ddebit.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/ddebit.php
 				$icepay_method = new Icepay_Paymentmethod_Ddebit();
 
 				break;
 			case PaymentMethods::GIROPAY:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/giropay.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/giropay.php
 				$icepay_method = new Icepay_Paymentmethod_Giropay();
 
 				break;
 			case PaymentMethods::IDEAL:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/ideal.php
 				$icepay_method = new Icepay_Paymentmethod_Ideal();
 
 				break;
 			case PaymentMethods::BANCONTACT:
 			case PaymentMethods::MISTER_CASH:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/mistercash.php
 				$icepay_method = new Icepay_Paymentmethod_Mistercash();
 
 				break;
 			case PaymentMethods::PAYPAL:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/paypal.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/paypal.php
 				$icepay_method = new Icepay_Paymentmethod_Paypal();
 
 				break;
 			case PaymentMethods::SOFORT:
-				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/directebank.php
+				// @link https://github.com/pronamic/icepay-soap-api/blob/2.4.0/api/paymentmethods/directebank.php
 				$icepay_method = new Icepay_Paymentmethod_Directebank();
 
 				// Set issuer.
