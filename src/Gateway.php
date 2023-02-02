@@ -81,6 +81,8 @@ class Gateway extends Core_Gateway {
 		$credit_card_payment_method = new PaymentMethod( PaymentMethods::CREDIT_CARD );
 
 		$credit_card_issuer_field = new SelectField( 'credit-card-issuer' );
+		$credit_card_issuer_field->set_label( __( 'Brand', 'pronamic_ideal' ) );
+		$credit_card_issuer_field->meta_key = 'credit_card_issuer';
 
 		$credit_card_issuer_field->set_options(
 			new CachedCallbackOptions(
@@ -254,6 +256,8 @@ class Gateway extends Core_Gateway {
 			case PaymentMethods::CREDIT_CARD:
 				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 				$icepay_method = new Icepay_Paymentmethod_Creditcard();
+
+				$payment_object->setIssuer( $payment->get_meta( 'credit_card_issuer' ) );
 
 				break;
 			case PaymentMethods::DIRECT_DEBIT:
