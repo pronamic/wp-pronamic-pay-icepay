@@ -8,8 +8,11 @@ use Icepay_Basicmode;
 use Icepay_Paymentmethod_Creditcard;
 use Icepay_Paymentmethod_Ddebit;
 use Icepay_Paymentmethod_Directebank;
+use Icepay_Paymentmethod_Giropay;
 use Icepay_Paymentmethod_Ideal;
 use Icepay_Paymentmethod_Mistercash;
+use Icepay_Paymentmethod_Paypal;
+use Icepay_Paymentmethod_Wire;
 use Icepay_PaymentObject;
 use Icepay_Postback;
 use Icepay_Result;
@@ -98,8 +101,11 @@ class Gateway extends Core_Gateway {
 		// Payment methods.
 		$this->register_payment_method( $ideal_payment_method );
 		$this->register_payment_method( $credit_card_payment_method );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::BANK_TRANSFER ) );
 		$this->register_payment_method( new PaymentMethod( PaymentMethods::DIRECT_DEBIT ) );
 		$this->register_payment_method( new PaymentMethod( PaymentMethods::BANCONTACT ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::GIROPAY ) );
+		$this->register_payment_method( new PaymentMethod( PaymentMethods::PAYPAL ) );
 		$this->register_payment_method( new PaymentMethod( PaymentMethods::SOFORT ) );
 	}
 
@@ -253,6 +259,11 @@ class Gateway extends Core_Gateway {
 		$icepay_method = null;
 
 		switch ( $payment->get_payment_method() ) {
+			case PaymentMethods::BANK_TRANSFER:
+				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/wire.php
+				$icepay_method = new Icepay_Paymentmethod_Wire();
+
+				break;
 			case PaymentMethods::CREDIT_CARD:
 				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/creditcard.php
 				$icepay_method = new Icepay_Paymentmethod_Creditcard();
@@ -265,6 +276,11 @@ class Gateway extends Core_Gateway {
 				$icepay_method = new Icepay_Paymentmethod_Ddebit();
 
 				break;
+			case PaymentMethods::GIROPAY:
+				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/giropay.php
+				$icepay_method = new Icepay_Paymentmethod_Giropay();
+
+				break;
 			case PaymentMethods::IDEAL:
 				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/ideal.php
 				$icepay_method = new Icepay_Paymentmethod_Ideal();
@@ -274,6 +290,11 @@ class Gateway extends Core_Gateway {
 			case PaymentMethods::MISTER_CASH:
 				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/mistercash.php
 				$icepay_method = new Icepay_Paymentmethod_Mistercash();
+
+				break;
+			case PaymentMethods::PAYPAL:
+				// @link https://github.com/icepay/icepay/blob/2.4.0/api/paymentmethods/paypal.php
+				$icepay_method = new Icepay_Paymentmethod_Paypal();
 
 				break;
 			case PaymentMethods::SOFORT:
