@@ -7,6 +7,16 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.2] - 2023-02-07
+### Commits
+
+- Added support for bank transfer, Giropay and PayPal payment methods (resolves #6). ([5eb45c3](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/5eb45c37bddb93dff945362d3cb85cb533ede349))
+- Fixed credit card error "Issuer not supported" for some integrations. ([0935a60](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/0935a60ec3a0fcc7a1cc2e5fc68771fd1d045694))
+
+Full set of changes: [`4.3.1...4.3.2`][4.3.2]
+
+[4.3.2]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/v4.3.1...v4.3.2
+
 ## [4.3.1] - 2023-01-31
 ### Composer
 
