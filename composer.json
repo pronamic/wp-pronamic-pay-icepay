@@ -3,7 +3,8 @@
 	"description": "ICEPAY driver for the WordPress payment processing library.",
 	"keywords": ["wordpress", "wp", "pay", "icepay", "ideal", "gateway", "pronamic"],
 	"homepage": "http://www.wp-pay.org/gateways/icepay/",
-	"license": "GPL-3.0-or-later" ,
+	"license": "GPL-3.0-or-later",
+	"type": "wordpress-plugin",
 	"authors": [
 		{
 			"name": "Pronamic",
