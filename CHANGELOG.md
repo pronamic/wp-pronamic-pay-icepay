@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.3] - 2023-03-27
+
+### Commits
+
+- Set Composer type to `wordpress-plugin`. ([0b26a9c](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/0b26a9c30714dec9ebb4581893a35e8c66dd4605))
+- Updated .gitattributes ([4bf0f32](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/4bf0f3215ac9f6287eb61d55934eb0989706af31))
+
+Full set of changes: [`4.3.2...4.3.3`][4.3.3]
+
+[4.3.3]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/v4.3.2...v4.3.3
+
 ## [4.3.2] - 2023-02-07
 ### Commits
 
