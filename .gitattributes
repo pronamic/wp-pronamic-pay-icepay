@@ -5,10 +5,10 @@
 /.travis.yml       export-ignore
 /Gruntfile.js      export-ignore
 /bin/              export-ignore
-/package.json      export-ignore
 /phpcs.xml.dist    export-ignore
 /phpmd.ruleset.xml export-ignore
 /phpstan.neon.dist export-ignore
 /phpunit.xml.dist  export-ignore
 /psalm.xmldist     export-ignore
 /tests/            export-ignore
+/vendor-bin/       export-ignore
