@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.4] - 2023-06-01
+
+### Commits
+
+- Switch from `pronamic/wp-deployer` to `pronamic/pronamic-cli`. ([b7bee4d](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/b7bee4da912433063d213c22e1f265ef9432fef5))
+- Updated .gitattributes ([fbb559b](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/fbb559b1c09128364cfc71d8cfbcf73361e56e0d))
+
+Full set of changes: [`4.3.3...4.3.4`][4.3.4]
+
+[4.3.4]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/v4.3.3...v4.3.4
+
 ## [4.3.3] - 2023-03-27
 
 ### Commits
