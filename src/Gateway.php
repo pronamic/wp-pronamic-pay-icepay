@@ -241,6 +241,12 @@ class Gateway extends Core_Gateway {
 		}
 
 		// Payment object.
+		$order_id = $payment->format_string( (string) $this->config->order_id );
+
+		if ( '' === $order_id ) {
+			$order_id = $payment->get_id();
+		}
+
 		$payment_object = new Icepay_PaymentObject();
 		$payment_object
 			->setAmount( $payment->get_total_amount()->get_minor_units()->to_int() )
@@ -250,7 +256,7 @@ class Gateway extends Core_Gateway {
 			->setDescription( $payment->get_description() )
 			->setCurrency( $payment->get_total_amount()->get_currency()->get_alphabetic_code() )
 			->setIssuer( $payment->get_meta( 'issuer' ) )
-			->setOrderID( $payment->format_string( $this->config->order_id ) );
+			->setOrderID( $order_id );
 
 		/*
 		 * Payment method
