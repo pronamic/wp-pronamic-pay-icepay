@@ -7,6 +7,16 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.5] - 2023-07-12
+
+### Commits
+
+- Updated for removed payment ID fallback in formatted payment string (pronamic/wp-pronamic-pay-adyen#23). ([b74cb45](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/b74cb45369ca7b51871f63938ad56d1af56007e5))
+
+Full set of changes: [`4.3.4...4.3.5`][4.3.5]
+
+[4.3.5]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/v4.3.4...v4.3.5
+
 ## [4.3.4] - 2023-06-01
 
 ### Commits
