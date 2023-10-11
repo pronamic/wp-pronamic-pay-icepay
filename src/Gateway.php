@@ -20,7 +20,6 @@ use Icepay_StatusCode;
 use Pronamic\WordPress\Pay\Core\Gateway as Core_Gateway;
 use Pronamic\WordPress\Pay\Core\PaymentMethod;
 use Pronamic\WordPress\Pay\Core\PaymentMethods;
-use Pronamic\WordPress\Pay\Core\Server;
 use Pronamic\WordPress\Pay\Fields\CachedCallbackOptions;
 use Pronamic\WordPress\Pay\Fields\IDealIssuerSelectField;
 use Pronamic\WordPress\Pay\Fields\SelectField;
@@ -356,8 +355,14 @@ class Gateway extends Core_Gateway {
 	 * @param Payment $payment Payment.
 	 */
 	public function update_status( Payment $payment ) {
+		$method = '';
+
+		if ( \array_key_exists( 'REQUEST_METHOD', $_SERVER ) ) {
+			$method = \sanitize_text_field( $_SERVER['REQUEST_METHOD'] );
+		}
+
 		// Get the Icepay Result and set the required fields.
-		$result = ( 'POST' === Server::get( 'REQUEST_METHOD' ) ? new Icepay_Postback() : new Icepay_Result() );
+		$result = ( 'POST' === $method ? new Icepay_Postback() : new Icepay_Result() );
 
 		$result
 			->setMerchantID( $this->config->merchant_id )
