@@ -81,10 +81,6 @@ class Integration extends AbstractGatewayIntegration {
 		// Purchase ID
 		$fields[] = [
 			'section'     => 'advanced',
-			/**
-			 * Filter ICEPAY order ID unsafe raw to allow double quotes.
-			 */
-			'filter'      => \FILTER_UNSAFE_RAW,
 			'meta_key'    => '_pronamic_gateway_icepay_order_id',
 			'title'       => __( 'Order ID', 'pronamic_ideal' ),
 			'type'        => 'text',
