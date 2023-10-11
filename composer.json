@@ -35,14 +35,14 @@
 		"wp-pay/core": "^4.6"
 	},
 	"require-dev": {
-		"bamarni/composer-bin-plugin": "^1.4",
-		"overtrue/phplint": "^4.3",
-		"php-coveralls/php-coveralls": "^2.4",
-		"phpmd/phpmd": "^2.7",
+		"bamarni/composer-bin-plugin": "^1.8",
+		"overtrue/phplint": "^9.0",
+		"php-coveralls/php-coveralls": "^2.6",
+		"phpmd/phpmd": "^2.14",
 		"roots/wordpress": "^6.0",
 		"wp-phpunit/wp-phpunit": "^6.1",
-		"pronamic/wp-coding-standards": "^1.3",
-		"yoast/phpunit-polyfills": "^1.0",
+		"pronamic/wp-coding-standards": "^2.0",
+		"yoast/phpunit-polyfills": "^2.0",
 		"pronamic/pronamic-cli": "^1.0"
 	},
 	"scripts": {
