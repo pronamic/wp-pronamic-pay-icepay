@@ -1,6 +1,6 @@
 {
   "name": "icepay",
-  "version": "4.3.5",
+  "version": "4.3.6",
   "description": "ICEPAY driver for the WordPress payment processing library.",
   "repository": {
     "type": "git",

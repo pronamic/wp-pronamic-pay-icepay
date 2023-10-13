@@ -7,6 +7,22 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.6] - 2023-10-13
+
+### Commits
+
+- The default `sanitize_text_field` function allows double quotes. ([3d788e2](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/3d788e2ded388a76df8642faafc0217f8741aa60))
+- No longer use `Server::get`, method will be removed. ([f641da3](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/f641da3081a11d135be15b496d86ad5f55eef438))
+
+### Composer
+
+- Changed `wp-pay/core` from `^4.6` to `v4.13.0`.
+	Release notes: https://github.com/pronamic/wp-pay-core/releases/tag/v4.13.0
+
+Full set of changes: [`4.3.5...4.3.6`][4.3.6]
+
+[4.3.6]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/v4.3.5...v4.3.6
+
 ## [4.3.5] - 2023-07-12
 
 ### Commits
