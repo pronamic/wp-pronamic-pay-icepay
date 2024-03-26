@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.7] - 2024-03-26
+
+### Commits
+
+- ncu -u ([47a493e](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/47a493ecdf163dcee1fba2df646b3b289c59ed53))
+- Updated .gitattributes ([73dc8cc](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/73dc8cc900245b35dc8abcbf2e585c0b099d3c56))
+
+Full set of changes: [`4.3.6...4.3.7`][4.3.7]
+
+[4.3.7]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/v4.3.6...v4.3.7
+
 ## [4.3.6] - 2023-10-13
 
 ### Commits
