@@ -7,6 +7,17 @@ This projects adheres to [Semantic Versioning](http://semver.org/) and [Keep a C
 ## [Unreleased][unreleased]
 -
 
+## [4.3.8] - 2024-12-17
+
+### Commits
+
+- Allow automattic/jetpack-autoloader Composer plugin. ([cc9f0c0](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/cc9f0c0947185d6b7491598963eed648c228cfe3))
+- Happy 2024. ([0673baf](https://github.com/pronamic/wp-pronamic-pay-icepay/commit/0673bafe339b3402cd8ad823798bb083025d17c1))
+
+Full set of changes: [`4.3.7...4.3.8`][4.3.8]
+
+[4.3.8]: https://github.com/pronamic/wp-pronamic-pay-icepay/compare/v4.3.7...v4.3.8
+
 ## [4.3.7] - 2024-03-26
 
 ### Commits
